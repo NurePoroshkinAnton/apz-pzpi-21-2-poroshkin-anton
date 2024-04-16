@@ -11,6 +11,9 @@ export class Client extends BaseEntity {
   lastName: string;
 
   @Column()
+  email: string;
+
+  @Column()
   passportCode: string;
 
   @OneToMany(() => ClimateProfile, (profile) => profile.client)

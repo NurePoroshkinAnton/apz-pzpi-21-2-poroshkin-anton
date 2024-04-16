@@ -20,6 +20,10 @@ export class ClientsService {
     return this.clientRepo.findOneBy({ id });
   }
 
+  async getByEmail(email: string): Promise<Client> {
+    return this.clientRepo.findOneBy({ email });
+  }
+
   async create(dto: CreateClientDto): Promise<Client> {
     const client = this.clientRepo.create(dto);
     return this.clientRepo.save(client);

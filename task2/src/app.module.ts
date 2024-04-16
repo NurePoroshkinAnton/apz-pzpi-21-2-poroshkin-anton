@@ -14,6 +14,7 @@ import { CompaniesModule } from './companies/companies.module';
 import 'dotenv/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ConfigModule } from '@nestjs/config';
     ClimateProfilesModule,
     CompaniesModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -24,6 +24,9 @@ export class ClimateProfile extends BaseEntity {
   @Column()
   humidity: number;
 
+  @Column({ default: false })
+  isActive: boolean;
+
   @ManyToOne(() => Client, (client) => client.climateProfiles)
   client: Client;
 }

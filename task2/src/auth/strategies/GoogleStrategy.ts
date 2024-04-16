@@ -19,7 +19,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
       return null;
     }
 
-    const company = await this.authServive.validateCompany(profile);
+    const company = await this.authServive.validateUser(profile);
     return company;
   }
 }

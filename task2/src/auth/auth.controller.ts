@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { Company } from 'src/companies/entities/company.entity';
+import JwtPayload from 'src/common/types/JwtPayload';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -12,15 +13,13 @@ export class AuthController {
 
   @Get('google/signin')
   @UseGuards(GoogleAuthGuard)
-  signinWithGoogle() {
-    return { msg: 'Google signing' };
-  }
+  signinWithGoogle() {}
 
   @Get('google/redirect')
   @UseGuards(GoogleAuthGuard)
   googleRedirect(@Req() req: Request) {
-    const company = req.user as Company;
-    const accessToken = this.authService.signJwt(company);
+    const payload = req.user as JwtPayload;
+    const accessToken = this.authService.signJwt(payload);
 
     return { accessToken };
   }
