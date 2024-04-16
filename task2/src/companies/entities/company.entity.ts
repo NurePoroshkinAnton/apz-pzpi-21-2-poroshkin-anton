@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from 'src/common/base-entity.entity';
+import { Hotel } from 'src/hotels/entities/hotel.entity';
 
 @Entity()
 export class Company extends BaseEntity {
@@ -11,4 +12,7 @@ export class Company extends BaseEntity {
 
   @Column()
   pictureUrl: string;
+
+  @OneToMany(() => Hotel, (hotel) => hotel.company)
+  hotels: Hotel[];
 }
