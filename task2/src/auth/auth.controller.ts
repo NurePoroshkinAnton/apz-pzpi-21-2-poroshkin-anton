@@ -1,8 +1,11 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { GoogleAuthGuard } from './guards/GoogleAuthGuard';
 import { AuthService } from './auth.service';
-import { AuthGuard } from 'src/common/guards/AuthGuard';
+import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
+import { Company } from 'src/companies/entities/company.entity';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -15,17 +18,15 @@ export class AuthController {
 
   @Get('google/redirect')
   @UseGuards(GoogleAuthGuard)
-  googleRedirect() {
-    return { msg: 'Singin successful' };
-  }
+  googleRedirect(@Req() req: Request) {
+    const company = req.user as Company;
+    const accessToken = this.authService.signJwt(company);
 
-  @Get('test')
-  test() {
-    return this.authService.getAll();
+    return { accessToken };
   }
 
   @Get('/status')
-  checkStatus(@Req() req) {
+  checkStatus(@Req() req: Request) {
     return { authStatus: Boolean(req.user) };
   }
 }

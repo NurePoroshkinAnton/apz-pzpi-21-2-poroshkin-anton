@@ -1,18 +1,19 @@
 import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import 'dotenv/config';
-import { PassportModule } from '@nestjs/passport';
-import { CommonModule } from './common/common.module';
-import { TestModule } from './test/test.module';
-import { LocationsModule } from './locations/locations.module';
-import { FacilitiesModule } from './facilities/facilities.module';
+import { ClientsModule } from './clients/clients.module';
 import { ClimateDevicesModule } from './climate-devices/climate-devices.module';
 import { HotelsModule } from './hotels/hotels.module';
 import { RoomsModule } from './rooms/rooms.module';
-import { ClientsModule } from './clients/clients.module';
+import { ClimateProfilesModule } from './climate-profiles/climate-profiles.module';
+import { CompaniesModule } from './companies/companies.module';
+
+import 'dotenv/config';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -29,14 +30,13 @@ import { ClientsModule } from './clients/clients.module';
       autoLoadEntities: true,
     }),
     PassportModule.register({ session: true }),
-    CommonModule,
-    TestModule,
-    LocationsModule,
-    FacilitiesModule,
     ClimateDevicesModule,
     HotelsModule,
     RoomsModule,
     ClientsModule,
+    ClimateProfilesModule,
+    CompaniesModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [AppController],
   providers: [AppService],

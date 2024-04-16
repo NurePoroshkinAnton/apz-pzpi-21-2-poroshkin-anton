@@ -1,39 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { Profile } from 'passport-google-oauth20';
+import { CompaniesService } from 'src/companies/companies.service';
 import { Company } from 'src/companies/entities/company.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(Company)
-    private readonly companyRepo: Repository<Company>,
+    private readonly companiesService: CompaniesService,
+    private readonly jwtService: JwtService,
+    private readonly config: ConfigService,
   ) {}
 
-  getAll() {
-    return this.companyRepo.find();
-  }
-
   async validateCompany(profile: Profile) {
-    const existingCompany = await this.companyRepo.findOneBy({
-      email: profile.emails[0].value,
-    });
+    const existingCompany = await this.companiesService.getByEmail(
+      profile.emails[0].value,
+    );
 
     if (existingCompany) {
       return existingCompany;
     }
 
-    const newCompany = this.companyRepo.create({
-      email: profile.emails[0].value,
-      displayName: profile.displayName,
-      pictureUrl: profile.photos[0].value,
-    });
-
-    return this.companyRepo.save(newCompany);
+    const newCompany = this.companiesService.create(profile);
+    return newCompany;
   }
 
-  findById(id: number) {
-    return this.companyRepo.findOneBy({ id });
+  signJwt(company: Company) {
+    return this.jwtService.sign(
+      { sub: company.id, email: company.email },
+      {
+        secret: this.config.get<string>('ACCESS_TOKEN_SECRET'),
+        expiresIn: this.config.get<string>('ACCESS_TOKENT_EXPIRATION_TIME'),
+      },
+    );
   }
 }
