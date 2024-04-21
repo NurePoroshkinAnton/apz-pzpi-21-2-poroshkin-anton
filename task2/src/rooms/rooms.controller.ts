@@ -6,14 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RoomsService } from './rooms.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
+import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
 
 @ApiTags('rooms')
+@ApiBearerAuth()
 @Controller('rooms')
+@UseGuards(AccessTokenGuard)
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) {}
 
@@ -23,8 +27,8 @@ export class RoomsController {
   }
 
   @Get()
-  getAll() {
-    return this.roomsService.getAll();
+  getAll(@Param('hotelId') hotelId: string) {
+    return this.roomsService.getAll(hotelId);
   }
 
   @Get(':id')

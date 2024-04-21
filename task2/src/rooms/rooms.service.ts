@@ -15,8 +15,12 @@ export class RoomsService {
     private readonly climateProfilesService: ClimateProfilesService,
   ) {}
 
-  async getAll(): Promise<Room[]> {
-    return this.roomRepo.find();
+  async getAll(hotelId: string): Promise<Room[]> {
+    return this.roomRepo.find({
+      where: {
+        hotelId,
+      },
+    });
   }
 
   async getById(id: string): Promise<Room> {
