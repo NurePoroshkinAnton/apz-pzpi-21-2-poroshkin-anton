@@ -4,12 +4,15 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Room } from './entities/room.entity';
 import { Repository } from 'typeorm';
+import { ClimateProfile } from 'src/climate-profiles/entities/climate-profile.entity';
+import { ClimateProfilesService } from 'src/climate-profiles/climate-profiles.service';
 
 @Injectable()
 export class RoomsService {
   constructor(
     @InjectRepository(Room)
-    private roomRepo: Repository<Room>,
+    private readonly roomRepo: Repository<Room>,
+    private readonly climateProfilesService: ClimateProfilesService,
   ) {}
 
   async getAll(): Promise<Room[]> {
@@ -18,6 +21,23 @@ export class RoomsService {
 
   async getById(id: string): Promise<Room> {
     return this.roomRepo.findOneBy({ id });
+  }
+
+  async getActiveProfile(roomId: string) {
+    const room = await this.getById(roomId);
+    let profile: ClimateProfile | null = null;
+
+    for (const client of room.clients) {
+      const activeProfile =
+        await this.climateProfilesService.getActiveProfileForClient(client.id);
+
+      if (activeProfile) {
+        profile = activeProfile;
+        break;
+      }
+    }
+
+    return profile;
   }
 
   async create(dto: CreateRoomDto): Promise<Room> {

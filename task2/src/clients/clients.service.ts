@@ -3,7 +3,7 @@ import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from './entities/client.entity';
-import { Repository } from 'typeorm';
+import { In, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class ClientsService {
@@ -22,6 +22,15 @@ export class ClientsService {
 
   async getByEmail(email: string): Promise<Client> {
     return this.clientRepo.findOneBy({ email });
+  }
+
+  getAllByRoom(roomId: string, exclude: string[] = []) {
+    return this.clientRepo.find({
+      where: {
+        roomId,
+        id: Not(In(exclude)),
+      },
+    });
   }
 
   async create(dto: CreateClientDto): Promise<Client> {

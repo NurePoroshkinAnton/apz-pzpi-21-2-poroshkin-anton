@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { AccessTokenGuard } from './guards/AccessTokenGuard';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [JwtService, ConfigService],
+  imports: [JwtModule],
   providers: [AccessTokenGuard],
   exports: [AccessTokenGuard],
 })

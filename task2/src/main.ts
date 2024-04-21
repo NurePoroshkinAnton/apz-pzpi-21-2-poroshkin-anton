@@ -16,6 +16,7 @@ const swaggerConfig = new DocumentBuilder()
   .addTag('clients')
   .addTag('auth')
   .addTag('companies')
+  .addBearerAuth()
   .build();
 
 async function bootstrap() {

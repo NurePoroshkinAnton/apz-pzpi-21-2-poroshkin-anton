@@ -3,17 +3,23 @@ import { CreateClimateProfileDto } from './dto/create-climate-profile.dto';
 import { UpdateClimateProfileDto } from './dto/update-climate-profile.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ClimateProfile } from './entities/climate-profile.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
+import { ClientsService } from 'src/clients/clients.service';
 
 @Injectable()
 export class ClimateProfilesService {
   constructor(
     @InjectRepository(ClimateProfile)
-    private climateProfileRepo: Repository<ClimateProfile>,
+    private readonly climateProfileRepo: Repository<ClimateProfile>,
+    private readonly clientsService: ClientsService,
   ) {}
 
   async getAll(): Promise<ClimateProfile[]> {
-    return this.climateProfileRepo.find();
+    return this.climateProfileRepo.find({
+      relations: {
+        client: true,
+      },
+    });
   }
 
   async getById(id: string): Promise<ClimateProfile> {
@@ -23,6 +29,35 @@ export class ClimateProfilesService {
   async create(dto: CreateClimateProfileDto): Promise<ClimateProfile> {
     const ClimateProfile = this.climateProfileRepo.create(dto);
     return this.climateProfileRepo.save(ClimateProfile);
+  }
+
+  getActiveProfileForClient(clientId: string): Promise<ClimateProfile | null> {
+    return this.climateProfileRepo.findOne({
+      where: {
+        clientId,
+        isActive: true,
+      },
+    });
+  }
+
+  async setProfileStatus(profileId: string, isActive: boolean) {
+    await this.climateProfileRepo.update(profileId, { isActive });
+
+    if (isActive) {
+      const profile = await this.getById(profileId);
+      const client = profile.client;
+      const roomClients = await this.clientsService.getAllByRoom(
+        client.roomId,
+        [client.id],
+      );
+
+      this.climateProfileRepo.update(
+        { clientId: In(roomClients.map((client) => client.id)) },
+        { isActive: false },
+      );
+    }
+
+    return this.getById(profileId);
   }
 
   async update(
