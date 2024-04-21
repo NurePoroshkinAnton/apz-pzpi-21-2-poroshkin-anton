@@ -10,11 +10,10 @@ import { HotelsModule } from './hotels/hotels.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { ClimateProfilesModule } from './climate-profiles/climate-profiles.module';
 import { CompaniesModule } from './companies/companies.module';
-
-import 'dotenv/config';
-import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+
+import 'dotenv/config';
 
 @Module({
   imports: [
