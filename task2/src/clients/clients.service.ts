@@ -12,8 +12,12 @@ export class ClientsService {
     private clientRepo: Repository<Client>,
   ) {}
 
-  async getAll(): Promise<Client[]> {
-    return this.clientRepo.find();
+  async getAll(companyId: string): Promise<Client[]> {
+    return this.clientRepo.find({
+      where: {
+        companyId,
+      },
+    });
   }
 
   async getById(id: string): Promise<Client> {
@@ -33,8 +37,8 @@ export class ClientsService {
     });
   }
 
-  async create(dto: CreateClientDto): Promise<Client> {
-    const client = this.clientRepo.create(dto);
+  async create(dto: CreateClientDto, companyId: string): Promise<Client> {
+    const client = this.clientRepo.create({ ...dto, companyId });
     return this.clientRepo.save(client);
   }
 
