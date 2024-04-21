@@ -26,9 +26,12 @@ export class ClimateProfilesService {
     return this.climateProfileRepo.findOneBy({ id });
   }
 
-  async create(dto: CreateClimateProfileDto): Promise<ClimateProfile> {
-    const ClimateProfile = this.climateProfileRepo.create(dto);
-    return this.climateProfileRepo.save(ClimateProfile);
+  async create(
+    dto: CreateClimateProfileDto,
+    clientId: string,
+  ): Promise<ClimateProfile> {
+    const climateProfile = this.climateProfileRepo.create({ ...dto, clientId });
+    return this.climateProfileRepo.save(climateProfile);
   }
 
   getActiveProfileForClient(clientId: string): Promise<ClimateProfile | null> {

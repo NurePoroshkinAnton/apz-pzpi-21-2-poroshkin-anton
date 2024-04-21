@@ -6,22 +6,36 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ClimateProfilesService } from './climate-profiles.service';
 import { CreateClimateProfileDto } from './dto/create-climate-profile.dto';
 import { UpdateClimateProfileDto } from './dto/update-climate-profile.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
+import { Request } from 'express';
+import JwtPayload from 'src/common/types/JwtPayload';
 
 @ApiTags('climate-profiles')
+@ApiBearerAuth()
 @Controller('climate-profiles')
+@UseGuards(AccessTokenGuard)
 export class ClimateProfilesController {
   constructor(
     private readonly climateProfilesService: ClimateProfilesService,
   ) {}
 
   @Post()
-  create(@Body() createClimateProfileDto: CreateClimateProfileDto) {
-    return this.climateProfilesService.create(createClimateProfileDto);
+  create(
+    @Body() createClimateProfileDto: CreateClimateProfileDto,
+    @Req() request: Request,
+  ) {
+    const payload = request.user as JwtPayload;
+    return this.climateProfilesService.create(
+      createClimateProfileDto,
+      payload.sub,
+    );
   }
 
   @Get()
