@@ -6,25 +6,34 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { HotelsService } from './hotels.service';
 import { UpdateHotelDto } from './dto/update-hotel.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateHotelDto } from './dto/create-hotel.dto';
+import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
+import { Request } from 'express';
+import JwtPayload from 'src/common/types/JwtPayload';
 
 @ApiTags('hotels')
+@ApiBearerAuth()
 @Controller('hotels')
+@UseGuards(AccessTokenGuard)
 export class HotelsController {
   constructor(private readonly hotelsService: HotelsService) {}
 
   @Post()
-  create(@Body() createHotelDto: CreateHotelDto) {
-    return this.hotelsService.create(createHotelDto);
+  create(@Body() createHotelDto: CreateHotelDto, @Req() req: Request) {
+    const payload = req.user as JwtPayload;
+    return this.hotelsService.create(createHotelDto, payload.sub);
   }
 
   @Get()
-  getAll() {
-    return this.hotelsService.getAll();
+  getAll(@Req() req: Request) {
+    const payload = req.user as JwtPayload;
+    return this.hotelsService.getAll(payload.sub);
   }
 
   @Get(':id')

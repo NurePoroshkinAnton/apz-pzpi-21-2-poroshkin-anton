@@ -12,16 +12,20 @@ export class HotelsService {
     private readonly hotelRepo: Repository<Hotel>,
   ) {}
 
-  getAll() {
-    return this.hotelRepo.find();
+  getAll(companyId: string) {
+    return this.hotelRepo.find({
+      where: {
+        companyId,
+      },
+    });
   }
 
   getById(id: string) {
     return this.hotelRepo.findOneBy({ id });
   }
 
-  create(dto: CreateHotelDto) {
-    const newCompany = this.hotelRepo.create(dto);
+  create(dto: CreateHotelDto, companyId: string) {
+    const newCompany = this.hotelRepo.create({ ...dto, companyId });
     return this.hotelRepo.save(newCompany);
   }
 

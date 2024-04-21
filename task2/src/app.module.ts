@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 
 import 'dotenv/config';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -29,15 +30,16 @@ import 'dotenv/config';
       synchronize: true,
       autoLoadEntities: true,
     }),
-    PassportModule.register({ session: true }),
+    PassportModule.register({}),
     ClimateDevicesModule,
     HotelsModule,
     RoomsModule,
     ClientsModule,
     ClimateProfilesModule,
     CompaniesModule,
-    ConfigModule.forRoot({ isGlobal: true }),
     CommonModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    JwtModule.register({ global: true }),
   ],
   controllers: [AppController],
   providers: [AppService],
