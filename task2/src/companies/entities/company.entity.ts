@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from 'src/common/base-entity.entity';
 import { Hotel } from 'src/hotels/entities/hotel.entity';
+import { Client } from 'src/clients/entities/client.entity';
 
 @Entity()
 export class Company extends BaseEntity {
@@ -15,4 +16,7 @@ export class Company extends BaseEntity {
 
   @OneToMany(() => Hotel, (hotel) => hotel.company)
   hotels: Hotel[];
+
+  @OneToMany(() => Client, (client) => client.company)
+  clients: Client[];
 }
