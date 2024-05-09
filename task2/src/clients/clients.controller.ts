@@ -25,15 +25,13 @@ export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post()
-  create(@Body() createClientDto: CreateClientDto, @Req() request: Request) {
-    const payload = request.user as JwtPayload;
-    return this.clientsService.create(createClientDto, payload.sub);
+  create(@Body() createClientDto: CreateClientDto) {
+    return this.clientsService.create(createClientDto);
   }
 
   @Get()
-  getAll(@Req() request: Request) {
-    const payload = request.user as JwtPayload;
-    return this.clientsService.getAll(payload.sub);
+  getAll() {
+    return this.clientsService.getAll();
   }
 
   @Get(':id')

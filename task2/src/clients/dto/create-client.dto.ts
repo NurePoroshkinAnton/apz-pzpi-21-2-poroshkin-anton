@@ -1,6 +1,4 @@
 export class CreateClientDto {
-  firstName: string;
-  lastName: string;
-  passportCode: string;
+  name: string;
   email: string;
 }

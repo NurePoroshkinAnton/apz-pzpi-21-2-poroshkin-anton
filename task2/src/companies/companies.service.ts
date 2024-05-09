@@ -3,7 +3,7 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Company } from './entities/company.entity';
 import { Repository } from 'typeorm';
-import { Profile } from 'passport-google-oauth20';
+import { CreateCompanyDto } from './dto/create-company.dto';
 
 @Injectable()
 export class CompaniesService {
@@ -24,13 +24,8 @@ export class CompaniesService {
     return this.companyRepo.findOneBy({ email });
   }
 
-  create(dto: Profile) {
-    const newCompany = this.companyRepo.create({
-      email: dto.emails[0].value,
-      displayName: dto.displayName,
-      pictureUrl: dto.photos[0].value,
-    });
-
+  create(dto: CreateCompanyDto) {
+    const newCompany = this.companyRepo.create(dto);
     return this.companyRepo.save(newCompany);
   }
 

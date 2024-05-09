@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Profile } from 'passport-google-oauth20';
@@ -6,6 +6,10 @@ import { ClientsService } from 'src/clients/clients.service';
 import JwtPayload from 'src/common/types/JwtPayload';
 import { CompaniesService } from 'src/companies/companies.service';
 import { Role } from './types/Role';
+import { CreateClientDto } from 'src/clients/dto/create-client.dto';
+import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
+import { SigninDto } from './dto/signin.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -18,18 +22,16 @@ export class AuthService {
 
   async validateUser(profile: Profile) {
     const email = profile.emails[0].value;
-    const existingClient = await this.clientsService.getByEmail(email);
+    let client = await this.clientsService.getByEmail(email);
 
-    if (existingClient) {
-      return this.validateClient(profile);
+    if (!client) {
+      const dto: CreateClientDto = {
+        email,
+        name: profile.displayName || profile.username,
+      };
+
+      client = await this.clientsService.create(dto);
     }
-
-    return this.validateCompany(profile);
-  }
-
-  private async validateClient(profile: Profile) {
-    const email = profile.emails[0].value;
-    const client = await this.clientsService.getByEmail(email);
 
     return {
       sub: client.id,
@@ -38,19 +40,20 @@ export class AuthService {
     };
   }
 
-  private async validateCompany(profile: Profile) {
-    const email = profile.emails[0].value;
-    let comapny = await this.companiesService.getByEmail(email);
+  async signupCompany(dto: CreateCompanyDto) {
+    const password = await bcrypt.hash(dto.password, 10);
+    return this.companiesService.create({ ...dto, password });
+  }
 
-    if (!comapny) {
-      comapny = await this.companiesService.create(profile);
+  async signinCompany(dto: SigninDto) {
+    const { email, password } = dto;
+    const company = await this.companiesService.getByEmail(email);
+
+    if (!company || !(await bcrypt.compare(password, company.password))) {
+      throw new UnauthorizedException('Invalid credentials');
     }
 
-    return {
-      sub: comapny.id,
-      email: comapny.email,
-      role: Role.Company,
-    };
+    return company;
   }
 
   signJwt(payload: JwtPayload) {

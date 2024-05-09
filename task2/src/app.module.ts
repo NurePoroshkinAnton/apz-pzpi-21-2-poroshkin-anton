@@ -12,9 +12,10 @@ import { ClimateProfilesModule } from './climate-profiles/climate-profiles.modul
 import { CompaniesModule } from './companies/companies.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+import { JwtModule } from '@nestjs/jwt';
+import { DatabaseModule } from './database/database.module';
 
 import 'dotenv/config';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { JwtModule } from '@nestjs/jwt';
     CommonModule,
     ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({ global: true }),
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
