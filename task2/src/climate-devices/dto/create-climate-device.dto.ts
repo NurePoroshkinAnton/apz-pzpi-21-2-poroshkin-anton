@@ -6,6 +6,7 @@ import {
 export class CreateClimateDeviceDto {
   type: ClimateDeviceType;
   address: string;
+  accessionNumber: string;
   status: ClimateDeviceStatus;
   roomId: string;
 }
