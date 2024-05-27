@@ -17,11 +17,6 @@ export const roomUuids = [
   'b8de313c-3c4d-4b7f-b685-b4ef25417f05',
   '98a98298-bbcd-40a0-93c5-c08fd7321bb8',
   '725041ca-3c5c-42e5-86fa-094113439b72',
-  'badf345e-9396-49dc-83e2-311d88437298',
-  '784f3aaf-980d-493a-b647-fbf2280c1e71',
-  '1ed97504-e709-4135-809c-a9c561776565',
-  '71a976a1-4e5d-4aff-b4b1-91e29844333e',
-  '5a57b764-891d-4de2-8c73-600af2d6e407',
 ];
 
 const rooms = roomUuids.map((id) => ({

@@ -17,12 +17,6 @@ const hotels = [
     address: '123 Main Street, New York, NY 10001',
     companyId: companyUuid,
   },
-  {
-    id: '283aa81c-9da4-4a53-a0f1-36b3751f3304',
-    name: 'Cozy Inn',
-    address: '456 Elm Street, Los Angeles, CA 90012',
-    companyId: companyUuid,
-  },
 ];
 
 export const hotelUuids = hotels.map((hotel) => hotel.id);

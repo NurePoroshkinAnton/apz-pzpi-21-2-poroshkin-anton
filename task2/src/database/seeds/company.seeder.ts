@@ -12,10 +12,9 @@ export default class ComapnySeeder implements Seeder {
 const companies = [
   {
     id: '6aef370c-eb00-4e64-9cb9-2f7b0b07da0e',
-    displayName: 'Антон Порошкін',
-    email: 'anton.poroshkin@nure.ua',
-    pictureUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocIf7cnk5RD2Rn5IOztk4oU-8vbH1iMDBK45bf0z-6FZxy5ERoY=s96-c',
+    name: 'Grand Horizon Inn',
+    email: 'apz.climatly@gmail.com',
+    password: '$2a$10$lmDh3UNUV26FLfgh4t0NPeSdePEUgL2VJ/o67npuiycNQDLxnbV7m',
   },
 ];
 
