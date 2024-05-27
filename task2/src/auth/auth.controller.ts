@@ -6,13 +6,14 @@ import { ApiTags } from '@nestjs/swagger';
 import JwtPayload from 'src/common/types/JwtPayload';
 import { Role } from './types/Role';
 import { SigninDto } from './dto/signin.dto';
+import { SignupComapnyDto } from './dto/signup-company.dto';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('google/signin')
+  @Get('google/signin')
   @UseGuards(GoogleAuthGuard)
   signinUser() {}
 

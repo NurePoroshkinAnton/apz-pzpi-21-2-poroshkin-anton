@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { CompaniesService } from './companies.service';
 import { UpdateCompanyDto } from './dto/update-company.dto';
-import { Profile } from 'passport-google-oauth20';
 import { ApiTags } from '@nestjs/swagger';
+import { SignupComapnyDto } from 'src/auth/dto/signup-company.dto';
 
 @ApiTags('companies')
 @Controller('companies')
@@ -18,8 +18,8 @@ export class CompaniesController {
   constructor(private readonly companiesService: CompaniesService) {}
 
   @Post()
-  create(@Body() createHotelDto: Profile) {
-    return this.companiesService.create(createHotelDto);
+  create(@Body() createCompanyDto: SignupComapnyDto) {
+    return this.companiesService.create(createCompanyDto);
   }
 
   @Get()
