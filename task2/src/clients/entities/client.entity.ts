@@ -17,6 +17,6 @@ export class Client extends BaseEntity {
   @ManyToOne(() => Room, (room) => room.clients)
   room: Room;
 
-  @OneToMany(() => ClimateProfile, (profile) => profile.client)
+  @OneToMany(() => ClimateProfile, (profile) => profile.client, { eager: true })
   climateProfiles: ClimateProfile[];
 }

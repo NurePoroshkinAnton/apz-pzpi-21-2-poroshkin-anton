@@ -14,6 +14,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { JwtModule } from '@nestjs/jwt';
 import { DatabaseModule } from './database/database.module';
+import { StaticModule } from './static/static.module';
 
 import 'dotenv/config';
 
@@ -42,6 +43,7 @@ import 'dotenv/config';
     ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({ global: true }),
     DatabaseModule,
+    StaticModule,
   ],
   controllers: [AppController],
   providers: [AppService],

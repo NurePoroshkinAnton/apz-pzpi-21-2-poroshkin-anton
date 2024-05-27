@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { Room } from './entities/room.entity';
 import { Repository } from 'typeorm';
 import { ClimateProfile } from 'src/climate-profiles/entities/climate-profile.entity';
 import { ClimateProfilesService } from 'src/climate-profiles/climate-profiles.service';
+import { SetProfileActiveDto } from './dto/set-profile-active.dto';
 
 @Injectable()
 export class RoomsService {
@@ -29,6 +30,11 @@ export class RoomsService {
 
   async getActiveProfile(roomId: string) {
     const room = await this.getById(roomId);
+
+    if (!room) {
+      return null;
+    }
+
     let profile: ClimateProfile | null = null;
 
     for (const client of room.clients) {
@@ -42,6 +48,28 @@ export class RoomsService {
     }
 
     return profile;
+  }
+
+  async setActiveProfile(setProfileActiveDto: SetProfileActiveDto) {
+    const { roomId, profileId, isActive } = setProfileActiveDto;
+
+    const room = await this.getById(roomId);
+
+    if (!room) {
+      throw new NotFoundException('Room with given id does not exist');
+    }
+
+    if (isActive) {
+      for (const client of room.clients) {
+        for (const profile of client.climateProfiles) {
+          await this.climateProfilesService.update(profile.id, {
+            isActive: false,
+          });
+        }
+      }
+    }
+
+    return this.climateProfilesService.update(profileId, { isActive });
   }
 
   async create(dto: CreateRoomDto): Promise<Room> {

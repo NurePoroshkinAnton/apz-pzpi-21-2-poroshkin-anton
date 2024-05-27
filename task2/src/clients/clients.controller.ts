@@ -7,15 +7,12 @@ import {
   Param,
   Delete,
   UseGuards,
-  Req,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
-import { Request } from 'express';
-import JwtPayload from 'src/common/types/JwtPayload';
 
 @ApiTags('clients')
 @ApiBearerAuth()

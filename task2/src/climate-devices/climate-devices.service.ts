@@ -12,8 +12,12 @@ export class ClimateDevicesService {
     private climateDeviceRepo: Repository<ClimateDevice>,
   ) {}
 
-  async getAll(): Promise<ClimateDevice[]> {
-    return this.climateDeviceRepo.find();
+  async getByRoom(roomId: string): Promise<ClimateDevice[]> {
+    return this.climateDeviceRepo.find({
+      where: {
+        roomId,
+      },
+    });
   }
 
   async getById(id: string): Promise<ClimateDevice> {
