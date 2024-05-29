@@ -26,11 +26,6 @@ export class ClientsController {
     return this.clientsService.create(createClientDto);
   }
 
-  @Get()
-  getAll() {
-    return this.clientsService.getAll();
-  }
-
   @Get(':id')
   getById(@Param('id') id: string) {
     return this.clientsService.getById(id);

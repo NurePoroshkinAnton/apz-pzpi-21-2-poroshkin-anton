@@ -12,10 +12,6 @@ export class CompaniesService {
     private readonly companyRepo: Repository<Company>,
   ) {}
 
-  getAll() {
-    return this.companyRepo.find();
-  }
-
   getById(id: string) {
     return this.companyRepo.findOneBy({ id });
   }
@@ -32,9 +28,5 @@ export class CompaniesService {
   async update(id: string, dto: UpdateCompanyDto) {
     await this.companyRepo.update(id, dto);
     return this.getById(id);
-  }
-
-  remove(id: string) {
-    return this.companyRepo.delete(id);
   }
 }

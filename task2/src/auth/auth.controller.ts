@@ -49,9 +49,4 @@ export class AuthController {
 
     return { accessToken };
   }
-
-  @Get('/status')
-  checkStatus(@Req() req: Request) {
-    return { authStatus: Boolean(req.user) };
-  }
 }

@@ -23,7 +23,15 @@ export class ClimateProfilesService {
   }
 
   async getById(id: string): Promise<ClimateProfile> {
-    return this.climateProfileRepo.findOneBy({ id });
+    return this.climateProfileRepo.findOne({
+      where: {
+        id,
+      },
+
+      relations: {
+        client: true,
+      },
+    });
   }
 
   async create(

@@ -34,6 +34,11 @@ export class RoomsController {
     return this.roomsService.setActiveProfile(dto);
   }
 
+  @Get('/number-by-id')
+  getNumberById(@Query('roomId') roomId: string) {
+    return this.roomsService.getNumberById(roomId);
+  }
+
   @UseGuards(AccessTokenGuard)
   @Post()
   create(@Body() createRoomDto: CreateRoomDto) {

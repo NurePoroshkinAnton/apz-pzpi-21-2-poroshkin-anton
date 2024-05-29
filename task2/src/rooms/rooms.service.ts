@@ -85,4 +85,9 @@ export class RoomsService {
   async remove(id: string): Promise<void> {
     await this.roomRepo.delete(id);
   }
+
+  async getNumberById(id: string) {
+    const room = await this.roomRepo.findOneBy({ id });
+    return room.number;
+  }
 }

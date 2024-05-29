@@ -38,7 +38,6 @@ export class ClimateDevicesController {
     return this.climateDeviceService.getById(id);
   }
 
-  @UseGuards(AccessTokenGuard)
   @Patch(':id')
   update(
     @Param('id') id: string,
