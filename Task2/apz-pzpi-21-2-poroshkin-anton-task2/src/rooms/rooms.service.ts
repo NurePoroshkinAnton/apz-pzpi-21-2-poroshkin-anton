@@ -79,13 +79,11 @@ export class RoomsService {
     }
 
     if (isActive) {
-      for (const client of room.clients) {
-        console.log(client.climateProfiles);
-        for (const profile of client.climateProfiles) {
-          await this.climateProfilesService.update(profile.id, {
-            isActive: false,
-          });
-        }
+      const activeProfile = await this.getActiveProfile(roomId);
+      if (activeProfile) {
+        await this.climateProfilesService.update(activeProfile.id, {
+          isActive: false,
+        });
       }
     }
 

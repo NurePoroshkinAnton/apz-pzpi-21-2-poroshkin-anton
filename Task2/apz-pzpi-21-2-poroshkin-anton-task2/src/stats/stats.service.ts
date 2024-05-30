@@ -47,37 +47,6 @@ export class StatsService {
     };
   }
 
-  async getClimateDeviceStatisticsForHotel(hotelId: string) {
-    const rooms = await this.roomRepo.find({ where: { hotelId } });
-    const roomIds = rooms.map((room) => room.id);
-
-    const total = await this.climateDeviceRepo.count({
-      where: { roomId: In(roomIds) },
-    });
-
-    const statuses = await this.climateDeviceRepo
-      .createQueryBuilder('climateDevice')
-      .select('climateDevice.status', 'status')
-      .addSelect('COUNT(*)', 'count')
-      .where('climateDevice.roomId IN (:...roomIds)', { roomIds })
-      .groupBy('climateDevice.status')
-      .getRawMany();
-
-    const groups = statuses.map((status) => {
-      const count = parseInt(status.count, 10);
-      return {
-        status: status.status.toLowerCase(),
-        count,
-        percentage: Math.round((count / total) * 100),
-      };
-    });
-
-    return {
-      total,
-      groups,
-    };
-  }
-
   async getManufacturerStatistics(companyId: string) {
     const roomIds = await this.getRoomIdsByCompany(companyId);
 
@@ -109,7 +78,46 @@ export class StatsService {
       errorCount: errorMap.get(manufacturer) || 0,
     }));
 
+    results.sort((a, b) => {
+      if (b.errorCount !== a.errorCount) {
+        return b.errorCount - a.errorCount;
+      }
+
+      return b.warningCount - a.warningCount;
+    });
+
     return results;
+  }
+
+  async getClimateDeviceStatisticsForHotel(hotelId: string) {
+    const rooms = await this.roomRepo.find({ where: { hotelId } });
+    const roomIds = rooms.map((room) => room.id);
+
+    const total = await this.climateDeviceRepo.count({
+      where: { roomId: In(roomIds) },
+    });
+
+    const statuses = await this.climateDeviceRepo
+      .createQueryBuilder('climateDevice')
+      .select('climateDevice.status', 'status')
+      .addSelect('COUNT(*)', 'count')
+      .where('climateDevice.roomId IN (:...roomIds)', { roomIds })
+      .groupBy('climateDevice.status')
+      .getRawMany();
+
+    const groups = statuses.map((status) => {
+      const count = parseInt(status.count, 10);
+      return {
+        status: status.status.toLowerCase(),
+        count,
+        percentage: Math.round((count / total) * 100),
+      };
+    });
+
+    return {
+      total,
+      groups,
+    };
   }
 
   private async getHotelIdsByCompany(companyId: string) {
