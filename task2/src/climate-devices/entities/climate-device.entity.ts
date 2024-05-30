@@ -30,6 +30,7 @@ export class ClimateDevice extends BaseEntity {
   @Column({
     type: 'enum',
     enum: ClimateDeviceStatus,
+    default: ClimateDeviceStatus.Ok,
   })
   status: ClimateDeviceStatus;
 

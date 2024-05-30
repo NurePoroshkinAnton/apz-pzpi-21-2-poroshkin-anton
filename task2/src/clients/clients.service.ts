@@ -13,11 +13,23 @@ export class ClientsService {
   ) {}
 
   async getAll(): Promise<Client[]> {
-    return this.clientRepo.find();
+    return this.clientRepo.find({
+      relations: {
+        climateProfiles: true,
+      },
+    });
   }
 
   async getById(id: string): Promise<Client> {
-    return this.clientRepo.findOneBy({ id });
+    return this.clientRepo.findOne({
+      where: {
+        id,
+      },
+
+      relations: {
+        climateProfiles: true,
+      },
+    });
   }
 
   async getByEmail(email: string): Promise<Client> {
@@ -29,6 +41,10 @@ export class ClientsService {
       where: {
         roomId,
         id: Not(In(exclude)),
+      },
+
+      relations: {
+        climateProfiles: true,
       },
     });
   }

@@ -15,7 +15,7 @@ export class Room extends BaseEntity {
   @ManyToOne(() => Hotel, (hotel) => hotel.rooms)
   hotel: Hotel;
 
-  @OneToMany(() => Client, (client) => client.room, { eager: true })
+  @OneToMany(() => Client, (client) => client.room)
   clients: Client[];
 
   @OneToMany(() => ClimateDevice, (climateDevice) => climateDevice.room)

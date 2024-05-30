@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { GoogleAuthGuard } from './guards/GoogleAuthGuard';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
@@ -38,6 +46,7 @@ export class AuthController {
     return { accessToken };
   }
 
+  @HttpCode(200)
   @Post('/signin/company')
   async signinCompany(@Body() dto: SigninDto) {
     const company = await this.authService.signinCompany(dto);

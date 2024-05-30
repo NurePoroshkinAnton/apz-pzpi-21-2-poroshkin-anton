@@ -14,8 +14,12 @@ export class ClimateProfilesService {
     private readonly clientsService: ClientsService,
   ) {}
 
-  async getAll(): Promise<ClimateProfile[]> {
+  async getAll(clientId: string): Promise<ClimateProfile[]> {
     return this.climateProfileRepo.find({
+      where: {
+        clientId,
+      },
+
       relations: {
         client: true,
       },

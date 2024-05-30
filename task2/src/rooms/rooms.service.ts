@@ -21,11 +21,23 @@ export class RoomsService {
       where: {
         hotelId,
       },
+
+      relations: {
+        clients: true,
+      },
     });
   }
 
   async getById(id: string): Promise<Room> {
-    return this.roomRepo.findOneBy({ id });
+    return this.roomRepo.findOne({
+      where: {
+        id,
+      },
+
+      relations: {
+        clients: true,
+      },
+    });
   }
 
   async getActiveProfile(roomId: string) {
@@ -73,8 +85,8 @@ export class RoomsService {
   }
 
   async create(dto: CreateRoomDto): Promise<Room> {
-    const device = this.roomRepo.create(dto);
-    return this.roomRepo.save(device);
+    const hotel = this.roomRepo.create(dto);
+    return this.roomRepo.save(hotel);
   }
 
   async update(id: string, dto: UpdateRoomDto): Promise<Room> {

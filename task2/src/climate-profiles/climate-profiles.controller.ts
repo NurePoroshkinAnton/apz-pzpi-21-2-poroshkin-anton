@@ -16,11 +16,12 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
 import { Request } from 'express';
 import JwtPayload from 'src/common/types/JwtPayload';
+import { Role } from 'src/auth/types/Role';
 
 @ApiTags('climate-profiles')
 @ApiBearerAuth()
 @Controller('climate-profiles')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard(Role.Client))
 export class ClimateProfilesController {
   constructor(
     private readonly climateProfilesService: ClimateProfilesService,
@@ -39,8 +40,9 @@ export class ClimateProfilesController {
   }
 
   @Get()
-  getAll() {
-    return this.climateProfilesService.getAll();
+  getAll(@Req() request: Request) {
+    const payload = request.user as JwtPayload;
+    return this.climateProfilesService.getAll(payload.sub);
   }
 
   @Get(':id')

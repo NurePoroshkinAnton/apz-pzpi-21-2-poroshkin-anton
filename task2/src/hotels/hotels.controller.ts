@@ -16,11 +16,12 @@ import { CreateHotelDto } from './dto/create-hotel.dto';
 import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
 import { Request } from 'express';
 import JwtPayload from 'src/common/types/JwtPayload';
+import { Role } from 'src/auth/types/Role';
 
 @ApiTags('hotels')
 @ApiBearerAuth()
 @Controller('hotels')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard(Role.Company))
 export class HotelsController {
   constructor(private readonly hotelsService: HotelsService) {}
 

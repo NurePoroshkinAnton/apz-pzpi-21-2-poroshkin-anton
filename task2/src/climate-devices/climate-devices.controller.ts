@@ -14,6 +14,7 @@ import { CreateClimateDeviceDto } from './dto/create-climate-device.dto';
 import { UpdateClimateDeviceDto } from './dto/update-climate-device.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
+import { Role } from 'src/auth/types/Role';
 
 @ApiTags('climate-devices')
 @ApiBearerAuth()
@@ -21,7 +22,7 @@ import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
 export class ClimateDevicesController {
   constructor(private readonly climateDeviceService: ClimateDevicesService) {}
 
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard(Role.Company))
   @Post()
   create(@Body() createClimateDeviceDto: CreateClimateDeviceDto) {
     return this.climateDeviceService.create(createClimateDeviceDto);
@@ -32,7 +33,7 @@ export class ClimateDevicesController {
     return this.climateDeviceService.getByRoom(roomId);
   }
 
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard(Role.Company))
   @Get(':id')
   getById(@Param('id') id: string) {
     return this.climateDeviceService.getById(id);
@@ -46,7 +47,7 @@ export class ClimateDevicesController {
     return this.climateDeviceService.update(id, updateClimateDeviceDto);
   }
 
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard(Role.Company))
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.climateDeviceService.remove(id);
