@@ -27,6 +27,9 @@ export class ClimateDevice extends BaseEntity {
   @Column()
   accessionNumber: string;
 
+  @Column()
+  manufacturer: string;
+
   @Column({
     type: 'enum',
     enum: ClimateDeviceStatus,

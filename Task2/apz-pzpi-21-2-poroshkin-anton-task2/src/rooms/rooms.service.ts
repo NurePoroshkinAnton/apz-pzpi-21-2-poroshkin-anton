@@ -65,7 +65,14 @@ export class RoomsService {
   async setActiveProfile(setProfileActiveDto: SetProfileActiveDto) {
     const { roomId, profileId, isActive } = setProfileActiveDto;
 
-    const room = await this.getById(roomId);
+    const room = await this.roomRepo.findOne({
+      where: { id: roomId },
+      relations: {
+        clients: {
+          climateProfiles: true,
+        },
+      },
+    });
 
     if (!room) {
       throw new NotFoundException('Room with given id does not exist');
@@ -73,6 +80,7 @@ export class RoomsService {
 
     if (isActive) {
       for (const client of room.clients) {
+        console.log(client.climateProfiles);
         for (const profile of client.climateProfiles) {
           await this.climateProfilesService.update(profile.id, {
             isActive: false,

@@ -14,6 +14,7 @@ const swaggerConfig = new DocumentBuilder()
   .addTag('clients')
   .addTag('auth')
   .addTag('companies')
+  .addTag('stats')
   .addBearerAuth()
   .build();
 
