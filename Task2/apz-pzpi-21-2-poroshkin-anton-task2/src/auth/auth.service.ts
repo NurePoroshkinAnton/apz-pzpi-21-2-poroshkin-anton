@@ -9,6 +9,7 @@ import { Role } from './types/Role';
 import { CreateClientDto } from 'src/clients/dto/create-client.dto';
 import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 import { SigninDto } from './dto/signin.dto';
+import { omit } from 'lodash';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -54,6 +55,16 @@ export class AuthService {
     }
 
     return company;
+  }
+
+  async getCompanyProfile(companyId: string) {
+    const company = await this.companiesService.getById(companyId);
+    return omit(company, ['password']);
+  }
+
+  async getClientProfile(clientId: string) {
+    const client = await this.clientsService.getById(clientId);
+    return omit(client, ['password']);
   }
 
   signJwt(payload: JwtPayload) {

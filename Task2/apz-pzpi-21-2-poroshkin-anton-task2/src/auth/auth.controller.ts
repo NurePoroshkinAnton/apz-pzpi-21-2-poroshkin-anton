@@ -10,12 +10,14 @@ import {
 import { GoogleAuthGuard } from './guards/GoogleAuthGuard';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import JwtPayload from 'src/common/types/JwtPayload';
 import { Role } from './types/Role';
 import { SigninDto } from './dto/signin.dto';
 import { SignupComapnyDto } from './dto/signup-company.dto';
+import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
 
+@ApiBearerAuth()
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -57,5 +59,19 @@ export class AuthController {
     });
 
     return { accessToken };
+  }
+
+  @UseGuards(AccessTokenGuard(Role.Company))
+  @Get('profile/company')
+  getCompanyProfile(@Req() request: Request) {
+    const payload = request.user as JwtPayload;
+    return this.authService.getCompanyProfile(payload.sub);
+  }
+
+  @UseGuards(AccessTokenGuard(Role.Client))
+  @Get('profile/client')
+  getClientProfile(@Req() request: Request) {
+    const payload = request.user as JwtPayload;
+    return this.authService.getClientProfile(payload.sub);
   }
 }
