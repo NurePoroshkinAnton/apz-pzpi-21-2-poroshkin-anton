@@ -33,6 +33,8 @@ function ProtectedRouteComponent({ children }: { children: JSX.Element }) {
     }
 
     if (!authStore.client && !authStore.company) {
+        console.log(!authStore.client)
+        console.log(!authStore.company)
         return <Navigate to="/auth/company/signin" replace />
     }
 

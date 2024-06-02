@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { HotelsService } from './hotels.service';
 import { UpdateHotelDto } from './dto/update-hotel.dto';

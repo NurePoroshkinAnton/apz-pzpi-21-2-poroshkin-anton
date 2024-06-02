@@ -7,8 +7,9 @@ import { authStore } from "@/store/AuthStore"
 export default function SignupCompanyForm() {
     const navigate = useNavigate()
 
-    function handleFormSubmit(values: SignupComapnyDto) {
-        authStore.signupCompany(values)
+    async function handleFormSubmit(values: SignupComapnyDto) {
+        await authStore.signupCompany(values)
+        navigate("/hotels")
     }
 
     return (

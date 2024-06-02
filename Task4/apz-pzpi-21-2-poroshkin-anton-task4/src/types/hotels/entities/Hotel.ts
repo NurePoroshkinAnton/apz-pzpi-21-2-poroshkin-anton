@@ -1,7 +1,7 @@
 import { BaseEntity } from "@/types/common/BaseEntity"
 
-export type Company = BaseEntity & {
+export type Hotel = BaseEntity & {
     name: string
-    email: string
+    address: string
 }
 

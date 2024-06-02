@@ -4,6 +4,8 @@ import MainLayout from "@/components/layout/MainLayout"
 import AuthLayout from "@/components/layout/AuthLayout"
 import SinginCompany from "@/components/layout/company/auth/SigninCompany"
 import SignupCompany from "@/components/layout/company/auth/SignupCompany"
+import ProtectedRoute from "@/components/hoc/ProtectedRoute"
+import Hotels from "@/components/layout/company/hotels"
 
 export const router = createBrowserRouter([
     {
@@ -14,8 +16,12 @@ export const router = createBrowserRouter([
                 element: <MainLayout />,
                 children: [
                     {
-                        index: true,
-                        element: <div>Home page</div>,
+                        path: "hotels",
+                        element: (
+                            <ProtectedRoute>
+                                <Hotels />
+                            </ProtectedRoute>
+                        ),
                     },
                 ],
             },

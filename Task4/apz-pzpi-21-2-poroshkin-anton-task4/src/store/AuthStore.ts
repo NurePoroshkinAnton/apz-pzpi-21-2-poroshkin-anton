@@ -93,11 +93,12 @@ class AuthStore {
     }
 
     setReady(isReady: boolean) {
-        authStore.isReady = isReady
+        this.isReady = isReady
     }
 
     async getCompanyProfile() {
         const profile = await authService.getCompanyProfile()
+
         runInAction(() => {
             this.company = profile
             this.isReady = true
@@ -106,6 +107,7 @@ class AuthStore {
 
     async getClientProfile() {
         const profile = await authService.getClientProfile()
+
         runInAction(() => {
             this.client = profile
             this.isReady = true
@@ -113,8 +115,11 @@ class AuthStore {
     }
 
     async signout() {
-        this.client = null
-        this.company = null
+        runInAction(() => {
+            this.client = null
+            this.company = null
+        })
+
         localStorage.setItem(ACCESS_TOKEN_LS_KEY, "")
     }
 }
