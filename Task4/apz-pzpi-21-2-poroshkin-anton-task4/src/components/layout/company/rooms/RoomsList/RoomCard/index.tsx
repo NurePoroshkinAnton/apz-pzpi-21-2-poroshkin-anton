@@ -1,29 +1,30 @@
-import { Hotel } from "@/types/hotels/entities/Hotel"
 import { Button, Card } from "antd"
-import styles from "./styles.module.scss"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { Link } from "react-router-dom"
 import { useState } from "react"
-import EditHotelModal from "@/components/layout/company/hotels/HotelsList/EditHotelModal"
-import { hotelStore } from "@/store/HotelStore"
+import { Room } from "@/types/rooms/entities/Room"
+import EditRoomModal from "@/components/layout/company/rooms/RoomsList/EditRoomModal"
+import styles from "./styles.module.scss"
+import { roomStore } from "@/store/RoomStore"
 
-type HotelCardProps = {
-    hotel: Hotel
+type RoomCardProps = {
+    room: Room
 }
 
-export default function HotelCard({ hotel }: HotelCardProps) {
+export default function RoomCard({ room }: RoomCardProps) {
     const [isEditModalVisible, setEditModalVisible] = useState<boolean>(false)
 
     return (
         <>
-            <EditHotelModal
+            <EditRoomModal
                 open={isEditModalVisible}
                 setOpen={setEditModalVisible}
-                hotelId={hotel.id}
+                roomId={room.id}
+                hotel={room.hotel}
             />
             <Card
-                className={styles["hotel-card"]}
-                title={hotel.name}
+                className={styles["room-card"]}
+                title={room.number}
                 actions={[
                     <Button
                         key="edit"
@@ -33,15 +34,19 @@ export default function HotelCard({ hotel }: HotelCardProps) {
                     </Button>,
                     <Button
                         key="delete"
-                        onClick={() => hotelStore.delete(hotel.id)}
+                        onClick={() => roomStore.delete(room.id)}
                     >
                         <DeleteOutlined />
                     </Button>,
                 ]}
             >
-                <div>Address: {hotel.address}</div>
-                <div>Number of rooms: 42</div>
-                <Link to={`/rooms?hotelId=${hotel.id}`}>View rooms...</Link>
+                <div>Number of climate devices: 42</div>
+                <div>
+                    <Link to={`/`}>View cliamte devices...</Link>
+                </div>
+                <div>
+                    <Link to={`/`}>View statistics...</Link>
+                </div>
             </Card>
         </>
     )

@@ -24,6 +24,7 @@ export class RoomsService {
 
       relations: {
         clients: true,
+        hotel: true,
       },
     });
   }

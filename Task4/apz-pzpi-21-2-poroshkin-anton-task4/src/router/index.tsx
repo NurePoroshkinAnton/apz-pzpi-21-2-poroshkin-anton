@@ -6,6 +6,7 @@ import SinginCompany from "@/components/layout/company/auth/SigninCompany"
 import SignupCompany from "@/components/layout/company/auth/SignupCompany"
 import ProtectedRoute from "@/components/hoc/ProtectedRoute"
 import Hotels from "@/components/layout/company/hotels"
+import Rooms from "@/components/layout/company/rooms"
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,14 @@ export const router = createBrowserRouter([
                         element: (
                             <ProtectedRoute>
                                 <Hotels />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "rooms",
+                        element: (
+                            <ProtectedRoute>
+                                <Rooms />
                             </ProtectedRoute>
                         ),
                     },
