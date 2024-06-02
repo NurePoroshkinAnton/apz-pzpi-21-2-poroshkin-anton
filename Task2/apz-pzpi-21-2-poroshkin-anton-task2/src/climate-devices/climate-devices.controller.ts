@@ -15,12 +15,17 @@ import { UpdateClimateDeviceDto } from './dto/update-climate-device.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
 import { Role } from 'src/auth/types/Role';
+import { unitsConfig } from 'src/common/config/unitsConfig';
 
 @ApiTags('climate-devices')
 @ApiBearerAuth()
 @Controller('climate-devices')
 export class ClimateDevicesController {
   constructor(private readonly climateDeviceService: ClimateDevicesService) {}
+  @Get('/units-config')
+  getUnitsConfig() {
+    return unitsConfig;
+  }
 
   @UseGuards(AccessTokenGuard(Role.Company))
   @Post()
