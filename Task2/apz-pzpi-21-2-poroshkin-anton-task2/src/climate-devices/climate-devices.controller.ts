@@ -41,7 +41,6 @@ export class ClimateDevicesController {
   @UseGuards(AccessTokenGuard(Role.Company))
   @Get(':id')
   getById(@Param('id') id: string) {
-    console.log(this.climateDeviceService.getById(id));
     return this.climateDeviceService.getById(id);
   }
 

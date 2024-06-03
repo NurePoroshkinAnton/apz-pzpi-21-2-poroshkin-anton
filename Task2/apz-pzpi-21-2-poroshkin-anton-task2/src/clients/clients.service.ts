@@ -16,6 +16,7 @@ export class ClientsService {
     return this.clientRepo.find({
       relations: {
         climateProfiles: true,
+        room: true,
       },
     });
   }
@@ -28,6 +29,7 @@ export class ClientsService {
 
       relations: {
         climateProfiles: true,
+        room: true,
       },
     });
   }

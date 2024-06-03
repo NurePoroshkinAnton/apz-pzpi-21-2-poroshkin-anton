@@ -22,6 +22,11 @@ import { Role } from 'src/auth/types/Role';
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
+  @Get()
+  getAll() {
+    return this.clientsService.getAll();
+  }
+
   @Post()
   create(@Body() createClientDto: CreateClientDto) {
     return this.clientsService.create(createClientDto);
