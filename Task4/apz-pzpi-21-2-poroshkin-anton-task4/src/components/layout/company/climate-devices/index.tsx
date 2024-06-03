@@ -1,31 +1,32 @@
+import ClimateDeviceList from "@/components/layout/company/climate-devices/ClimateDeviceList"
+import CreateClimateDeviceModal from "@/components/layout/company/climate-devices/CreateClimateDeviceModal"
 import PageTitle from "@/components/ui/PageTitle"
-import styles from "./styles.module.scss"
-import { useEffect, useState } from "react"
+import { climateDeviceStore } from "@/store/ClimateDeviceStore"
+import { PlusOutlined } from "@ant-design/icons"
 import { Button, Spin } from "antd"
 import { observer } from "mobx-react-lite"
-import { PlusOutlined } from "@ant-design/icons"
-import { roomStore } from "@/store/RoomStore"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import CreateRoomModal from "@/components/layout/company/rooms/CreateRoomModal"
-import RoomList from "@/components/layout/company/rooms/RoomsList"
+import styles from "./styles.module.scss"
 
 type RouteParams = {
     hotelId: string
+    roomId: string
 }
 
-function RoomsComponent() {
+function ClimateDevicesComponent() {
     const [isCreateModalVisible, setCreateModalVisible] =
         useState<boolean>(false)
-    const { isLoading, isReady } = roomStore
-    const { hotelId } = useParams<RouteParams>()
+    const { isLoading, isReady } = climateDeviceStore
+    const { roomId } = useParams<RouteParams>()
 
     useEffect(() => {
-        roomStore.setHotelId(hotelId!)
+        climateDeviceStore.setRoomId(roomId!)
 
         if (!isReady) {
-            roomStore.fetchAll()
+            climateDeviceStore.fetchAll()
         }
-    }, [isReady, hotelId])
+    }, [isReady, roomId])
 
     if (isLoading) {
         return <Spin spinning fullscreen size="large" />
@@ -33,12 +34,12 @@ function RoomsComponent() {
 
     return (
         <div className={styles["rooms-page"]}>
-            <CreateRoomModal
+            <CreateClimateDeviceModal
                 open={isCreateModalVisible}
                 setOpen={(value) => setCreateModalVisible(value)}
             />
             <div className={styles["title-wrapper"]}>
-                <PageTitle title="Rooms" />
+                <PageTitle title="Climate devices" />
                 <Button
                     shape="circle"
                     onClick={() => setCreateModalVisible(true)}
@@ -46,11 +47,11 @@ function RoomsComponent() {
                     <PlusOutlined />
                 </Button>
             </div>
-            <RoomList />
+            <ClimateDeviceList />
         </div>
     )
 }
 
-const Rooms = observer(RoomsComponent)
-export default Rooms
+const ClimateDevices = observer(ClimateDevicesComponent)
+export default ClimateDevices
 

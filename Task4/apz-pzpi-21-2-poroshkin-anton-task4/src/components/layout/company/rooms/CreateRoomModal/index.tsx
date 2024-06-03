@@ -2,7 +2,7 @@ import { hotelApi } from "@/api/HotelApi"
 import { roomStore } from "@/store/RoomStore"
 import { Hotel } from "@/types/hotels/entities/Hotel"
 import { CreateRoomDto } from "@/types/rooms/dto/CreateRoomDto"
-import { Form, Input, Modal, ModalProps, Select } from "antd"
+import { Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
@@ -44,18 +44,20 @@ export default function CreateRoomModal({
             title="Create room"
             centered
         >
-            <Form<CreateRoomDto>
-                layout="vertical"
-                onFinish={handleFormSubmit}
-                form={form}
-            >
-                <Form.Item name="hotelId" label="Hotel">
-                    <Select options={hotelsOptions} />
-                </Form.Item>
-                <Form.Item name="number" label="Number">
-                    <Input type="number" />
-                </Form.Item>
-            </Form>
+            <Spin spinning={!hotels}>
+                <Form<CreateRoomDto>
+                    layout="vertical"
+                    onFinish={handleFormSubmit}
+                    form={form}
+                >
+                    <Form.Item name="hotelId" label="Hotel">
+                        <Select options={hotelsOptions} />
+                    </Form.Item>
+                    <Form.Item name="number" label="Number">
+                        <Input type="number" />
+                    </Form.Item>
+                </Form>
+            </Spin>
         </Modal>
     )
 }

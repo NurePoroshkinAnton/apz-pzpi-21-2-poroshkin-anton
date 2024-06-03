@@ -17,6 +17,10 @@ export class ClimateDevicesService {
       where: {
         roomId,
       },
+
+      relations: {
+        room: true,
+      },
     });
   }
 

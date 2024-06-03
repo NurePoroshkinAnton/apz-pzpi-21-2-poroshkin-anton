@@ -42,7 +42,14 @@ export default function RoomCard({ room }: RoomCardProps) {
             >
                 <div>Number of climate devices: 42</div>
                 <div>
-                    <Link to={`/`}>View cliamte devices...</Link>
+                    <Link
+                        to={`/climate-devices?${new URLSearchParams({
+                            roomId: room.id,
+                            hotelId: room.hotel.id,
+                        })}`}
+                    >
+                        View cliamte devices...
+                    </Link>
                 </div>
                 <div>
                     <Link to={`/`}>View statistics...</Link>

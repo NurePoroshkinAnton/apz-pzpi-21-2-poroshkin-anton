@@ -7,6 +7,7 @@ import SignupCompany from "@/components/layout/company/auth/SignupCompany"
 import ProtectedRoute from "@/components/hoc/ProtectedRoute"
 import Hotels from "@/components/layout/company/hotels"
 import Rooms from "@/components/layout/company/rooms"
+import ClimateDevices from "@/components/layout/company/climate-devices"
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +30,14 @@ export const router = createBrowserRouter([
                         element: (
                             <ProtectedRoute>
                                 <Rooms />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "climate-devices",
+                        element: (
+                            <ProtectedRoute>
+                                <ClimateDevices />
                             </ProtectedRoute>
                         ),
                     },
