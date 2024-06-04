@@ -36,10 +36,11 @@ export default function DeviceStatsChart({
         responsive: true,
         plugins: {
             legend: {
-                position: "top" as const,
+                display: false,
             },
             tooltip: {
                 callbacks: {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     label: (tooltipItem: any) => {
                         const index = tooltipItem.dataIndex
                         const percentage = deviceStats.groups[index].percentage

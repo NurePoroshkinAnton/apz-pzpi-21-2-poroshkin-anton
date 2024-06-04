@@ -6,9 +6,9 @@ import { CliamteDeviceStatsDto } from "@/types/stats/dto/ClimateDeviceStatsDto"
 import { statsApi } from "@/api/StatsApi"
 import { Badge, Card, Spin } from "antd"
 import { ClimateDeviceStatus } from "@/types/climate-devices/entities/ClimateDevice"
-import { capitalize } from "lodash"
 import DeviceStatsChart from "@/components/layout/company/stats/DeviceStatsChart"
 import { ManufacturerStatsDto } from "@/types/stats/dto/ManufacturerStatsDto"
+import { useTranslation } from "react-i18next"
 
 const deviceStatusColors: Record<ClimateDeviceStatus, string> = {
     [ClimateDeviceStatus.Ok]: "#52c41a",
@@ -17,6 +17,7 @@ const deviceStatusColors: Record<ClimateDeviceStatus, string> = {
 }
 
 export default function Stats() {
+    const { t } = useTranslation()
     const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null)
     const [deviceStats, setDeviceStats] =
         useState<CliamteDeviceStatsDto | null>(null)
@@ -45,13 +46,15 @@ export default function Stats() {
     return (
         <div className={styles["stats-page"]}>
             <PageTitle title="Statistics" />
-            <div className={styles["subtitle"]}>Climate device statistics</div>
+            <div className={styles["subtitle"]}>
+                {t("climateDeviceStatistics")}
+            </div>
             <div className={styles["chart-section"]}>
                 <div className={styles["devices-text"]}>
                     <HotelFilter setSelectedHotelId={setSelectedHotelId} />
                     <div className={styles["device-text-item"]}>
                         <span style={{ fontWeight: "bold" }}>
-                            Total number of climate devices:
+                            {t("totalNumberOfClimateDevices")}:
                         </span>{" "}
                         <Badge
                             count={deviceStats.total}
@@ -63,7 +66,7 @@ export default function Stats() {
                             className={styles["device-text-item"]}
                             key={group.status}
                         >
-                            {capitalize(group.status)}:{" "}
+                            {t(group.status)}:{" "}
                             <Badge
                                 count={group.count}
                                 color={deviceStatusColors[group.status]}
@@ -77,13 +80,13 @@ export default function Stats() {
             </div>
             <div className={styles["manufacturers-section"]}>
                 <div className={styles["subtitle"]}>
-                    Worst manufacturers rankings
+                    {t("worstManufacturersRankings")}
                 </div>
                 <div className={styles["worst-manufacturers-list"]}>
                     {manufacturersStats.map((item) => (
                         <Card title={item.manufacturer}>
                             <div>
-                                Number of climate devices with error status:{" "}
+                                {t("numberOfDevicesWithErrorStatus")}:{" "}
                                 <Badge
                                     showZero
                                     count={item.errorCount}
@@ -91,7 +94,7 @@ export default function Stats() {
                                 />
                             </div>
                             <div>
-                                Number of climate devices with warning status:{" "}
+                                {t("numberOfDevicesWithWarningStatus")}:{" "}
                                 <Badge
                                     showZero
                                     count={item.warningCount}

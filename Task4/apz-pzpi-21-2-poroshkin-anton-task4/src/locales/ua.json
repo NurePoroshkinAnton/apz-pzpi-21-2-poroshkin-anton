@@ -65,6 +65,13 @@
         "fetchClimateDevicesError": "Сталась помилка протягом спроби завантажити список клієнтів. Спробуйте пізніше",
         "createClimateDeviceError": "Сталась помилка протягом спроби додати клієнта. Спробуйте пізніше",
         "updateClimateDeviceError": "Сталась помилка протягом спроби оновити клієнта. Спробуйте пізніше",
-        "deleteClimateDeviceError": "Сталась помилка протягом спроби видалити клієнта. Спробуйте пізніше"
+        "deleteClimateDeviceError": "Сталась помилка протягом спроби видалити клієнта. Спробуйте пізніше",
+        "climateDeviceStatistics": "Статистика по пристроям для управління кліматом",
+        "filterByHotel": "Фільтрація за готелем",
+        "totalNumberOfClimateDevices": "Сумарна кількість кліматичних пристроїв",
+        "worstManufacturersRankings": "Найгірші виробники кліматичних пристроїв",
+        "numberOfDevicesWithErrorStatus": "Кількість пристроїв у стані помилки",
+        "numberOfDevicesWithWarningStatus": "Кількість пристроїв у стані попередження",
+        "notSelected": "Не обрано"
     }
 }
