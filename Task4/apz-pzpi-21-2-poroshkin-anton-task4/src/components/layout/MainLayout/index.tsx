@@ -3,8 +3,12 @@ import styles from "./styles.module.scss"
 import { Button } from "antd"
 import { authStore } from "@/store/AuthStore"
 import { observer } from "mobx-react-lite"
+import LocalePicker from "@/components/layout/MainLayout/LocalePicker"
+import { useTranslation } from "react-i18next"
 
 function MainLayoutComponent() {
+    const { t } = useTranslation()
+
     return (
         <div className={styles["main-layout"]}>
             <header>
@@ -12,18 +16,21 @@ function MainLayoutComponent() {
                 <nav className={styles["navigation"]}>
                     <ul className={styles["navigation-list"]}>
                         <li>
-                            <Link to={"/hotels"}>Hotels</Link>
+                            <Link to={"/hotels"}>{t("hotels")}</Link>
                         </li>
                         <li>
-                            <Link to={"/clients"}>Clients</Link>
+                            <Link to={"/clients"}>{t("clients")}</Link>
                         </li>
                         <li>
-                            <Link to={"/stats"}>Statistics</Link>
+                            <Link to={"/stats"}>{t("statistics")}</Link>
                         </li>
                     </ul>
                 </nav>
+                <LocalePicker />
                 <div>{authStore.company?.name || authStore.client?.name}</div>
-                <Button onClick={() => authStore.signout()}>Signout</Button>
+                <Button onClick={() => authStore.signout()}>
+                    {t("signout")}
+                </Button>
             </header>
             <main>
                 <Outlet />

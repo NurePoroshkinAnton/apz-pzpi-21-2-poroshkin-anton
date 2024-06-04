@@ -8,6 +8,7 @@ import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import styles from "./styles.module.scss"
+import { useTranslation } from "react-i18next"
 
 type RouteParams = {
     hotelId: string
@@ -15,6 +16,7 @@ type RouteParams = {
 }
 
 function ClimateDevicesComponent() {
+    const { t } = useTranslation()
     const [isCreateModalVisible, setCreateModalVisible] =
         useState<boolean>(false)
     const { isLoading, isReady } = climateDeviceStore
@@ -39,7 +41,7 @@ function ClimateDevicesComponent() {
                 setOpen={(value) => setCreateModalVisible(value)}
             />
             <div className={styles["title-wrapper"]}>
-                <PageTitle title="Climate devices" />
+                <PageTitle title={t("climateDevices")} />
                 <Button
                     shape="circle"
                     onClick={() => setCreateModalVisible(true)}

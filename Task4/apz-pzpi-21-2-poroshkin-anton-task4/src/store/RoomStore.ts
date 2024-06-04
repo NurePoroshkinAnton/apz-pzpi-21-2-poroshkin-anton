@@ -4,6 +4,9 @@ import { Room } from "@/types/rooms/entities/Room"
 import { roomApi } from "@/api/RoomApi"
 import { CreateRoomDto } from "@/types/rooms/dto/CreateRoomDto"
 import { UpdateRoomDto } from "@/types/rooms/dto/UpdateRoomDto"
+import i18next from "i18next"
+
+const { t } = i18next
 
 class RoomStore {
     constructor() {
@@ -29,9 +32,7 @@ class RoomStore {
                 this.isReady = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while fetching rooms. Please, try again later"
-            )
+            message.error(t("fetchRoomsError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -51,9 +52,7 @@ class RoomStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while creating a room. Please, try again later"
-            )
+            message.error(t("createRoomError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -73,9 +72,7 @@ class RoomStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while updating a room. Please, try again later"
-            )
+            message.error(t("updateRoomError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -95,9 +92,7 @@ class RoomStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while deleting a room. Please, try again later"
-            )
+            message.error(t("deleteRoomError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false

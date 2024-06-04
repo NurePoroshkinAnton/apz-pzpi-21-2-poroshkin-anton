@@ -1,6 +1,7 @@
 import { hotelStore } from "@/store/HotelStore"
 import { CreateHotelDto } from "@/types/hotels/dto/CreateHotelDto"
 import { Form, Input, Modal, ModalProps } from "antd"
+import { useTranslation } from "react-i18next"
 
 type EditHotelModalProps = ModalProps & {
     setOpen: (value: boolean) => void
@@ -10,6 +11,7 @@ export default function CreateHotelModal({
     setOpen,
     ...modalProps
 }: EditHotelModalProps) {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
 
     async function handleFormSubmit(values: CreateHotelDto) {
@@ -22,7 +24,7 @@ export default function CreateHotelModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Create hotel"
+            title={t("addHotel")}
             centered
         >
             <Form<CreateHotelDto>
@@ -30,10 +32,10 @@ export default function CreateHotelModal({
                 onFinish={handleFormSubmit}
                 form={form}
             >
-                <Form.Item name="name" label="Name">
+                <Form.Item name="name" label={t("name")}>
                     <Input />
                 </Form.Item>
-                <Form.Item name="address" label="Address">
+                <Form.Item name="address" label={t("address")}>
                     <Input />
                 </Form.Item>
             </Form>

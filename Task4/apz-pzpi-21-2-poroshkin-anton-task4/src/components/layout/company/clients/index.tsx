@@ -7,8 +7,10 @@ import { PlusOutlined } from "@ant-design/icons"
 import { clientStore } from "@/store/ClientStore"
 import ClientList from "@/components/layout/company/clients/ClientsList"
 import CreateClientModal from "@/components/layout/company/clients/CreateClientModal"
+import { useTranslation } from "react-i18next"
 
 function ClientsComponent() {
+    const { t } = useTranslation()
     const [isCreateModalVisible, setCreateModalVisible] =
         useState<boolean>(false)
     const { isLoading, isReady } = clientStore
@@ -30,7 +32,7 @@ function ClientsComponent() {
                 setOpen={(value) => setCreateModalVisible(value)}
             />
             <div className={styles["title-wrapper"]}>
-                <PageTitle title="Clients" />
+                <PageTitle title={t("clients")} />
                 <Button
                     shape="circle"
                     onClick={() => setCreateModalVisible(true)}

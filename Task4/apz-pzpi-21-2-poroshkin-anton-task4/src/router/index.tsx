@@ -73,10 +73,6 @@ export const router = createBrowserRouter([
                         path: "company/signup",
                         element: <SignupCompany />,
                     },
-                    {
-                        path: "client",
-                        element: <div>Client auth page</div>,
-                    },
                 ],
             },
         ],

@@ -6,12 +6,14 @@ import { Room } from "@/types/rooms/entities/Room"
 import EditRoomModal from "@/components/layout/company/rooms/RoomsList/EditRoomModal"
 import styles from "./styles.module.scss"
 import { roomStore } from "@/store/RoomStore"
+import { useTranslation } from "react-i18next"
 
 type RoomCardProps = {
     room: Room
 }
 
 export default function RoomCard({ room }: RoomCardProps) {
+    const { t } = useTranslation()
     const [isEditModalVisible, setEditModalVisible] = useState<boolean>(false)
 
     return (
@@ -40,7 +42,9 @@ export default function RoomCard({ room }: RoomCardProps) {
                     </Button>,
                 ]}
             >
-                <div>Number of climate devices: 42</div>
+                <div>
+                    {t("numberOfClimateDevices")}: {room.climateDevices.length}
+                </div>
                 <div>
                     <Link
                         to={`/climate-devices?${new URLSearchParams({
@@ -48,11 +52,8 @@ export default function RoomCard({ room }: RoomCardProps) {
                             hotelId: room.hotel.id,
                         })}`}
                     >
-                        View cliamte devices...
+                        {t("viewClimateDevices")}
                     </Link>
-                </div>
-                <div>
-                    <Link to={`/`}>View statistics...</Link>
                 </div>
             </Card>
         </>

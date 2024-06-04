@@ -8,6 +8,7 @@ import { DeleteOutlined } from "@ant-design/icons"
 import { Button, Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { omit } from "lodash"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 type CreateClientModalProps = ModalProps & {
     setOpen: (value: boolean) => void
@@ -17,6 +18,7 @@ export default function CreateClientModal({
     setOpen,
     ...modalProps
 }: CreateClientModalProps) {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
     const [hotels, setHotels] = useState<Hotel[]>([])
     const [rooms, setRooms] = useState<Room[]>([])
@@ -76,7 +78,7 @@ export default function CreateClientModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Create room"
+            title={t("addRoom")}
             centered
         >
             <Spin spinning={!hotels || isLoadingRooms}>
@@ -85,16 +87,16 @@ export default function CreateClientModal({
                     onFinish={handleFormSubmit}
                     form={form}
                 >
-                    <Form.Item name="name" label="Name">
+                    <Form.Item name="name" label={t("name")}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="email" label="Email">
+                    <Form.Item name="email" label={t("email")}>
                         <Input type="email" />
                     </Form.Item>
-                    <Form.Item name="hotelId" label="Hotel">
+                    <Form.Item name="hotelId" label={t("hotel")}>
                         <Select options={hotelsOptions} />
                     </Form.Item>
-                    <Form.Item label="Room">
+                    <Form.Item label={t("room")}>
                         <div
                             style={{
                                 display: "grid",

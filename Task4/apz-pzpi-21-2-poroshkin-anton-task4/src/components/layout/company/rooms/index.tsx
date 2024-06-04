@@ -8,12 +8,14 @@ import { roomStore } from "@/store/RoomStore"
 import { useParams } from "react-router-dom"
 import CreateRoomModal from "@/components/layout/company/rooms/CreateRoomModal"
 import RoomList from "@/components/layout/company/rooms/RoomsList"
+import { useTranslation } from "react-i18next"
 
 type RouteParams = {
     hotelId: string
 }
 
 function RoomsComponent() {
+    const { t } = useTranslation()
     const [isCreateModalVisible, setCreateModalVisible] =
         useState<boolean>(false)
     const { isLoading, isReady } = roomStore
@@ -38,7 +40,7 @@ function RoomsComponent() {
                 setOpen={(value) => setCreateModalVisible(value)}
             />
             <div className={styles["title-wrapper"]}>
-                <PageTitle title="Rooms" />
+                <PageTitle title={t("rooms")} />
                 <Button
                     shape="circle"
                     onClick={() => setCreateModalVisible(true)}

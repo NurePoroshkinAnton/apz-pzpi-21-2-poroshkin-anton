@@ -6,6 +6,7 @@ import { Room } from "@/types/rooms/entities/Room"
 import { getEnumOptions } from "@/utils/getEnumOptions"
 import { Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 
 type CreateClimateDeviceModalProps = ModalProps & {
@@ -21,6 +22,7 @@ export default function CreateClimateDeviceModal({
     setOpen,
     ...modalProps
 }: CreateClimateDeviceModalProps) {
+    const { t } = useTranslation()
     const { hotelId } = useParams<RouteParams>()
     const [form] = Form.useForm()
     const [rooms, setRooms] = useState<Room[]>([])
@@ -36,7 +38,7 @@ export default function CreateClimateDeviceModal({
 
     const typeOptions = getEnumOptions<ClimateDeviceType>(
         ClimateDeviceType,
-        (label) => label
+        (label) => t(label)
     )
 
     async function handleFormSubmit(values: CreateClimateDeviceDto) {
@@ -49,7 +51,7 @@ export default function CreateClimateDeviceModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Create room"
+            title={t("addClimateDevice")}
             centered
         >
             <Spin spinning={!rooms}>
@@ -58,19 +60,22 @@ export default function CreateClimateDeviceModal({
                     onFinish={handleFormSubmit}
                     form={form}
                 >
-                    <Form.Item name="roomId" label="Room">
+                    <Form.Item name="roomId" label={t("room")}>
                         <Select options={roomOptions} />
                     </Form.Item>
-                    <Form.Item name="type" label="Device type">
+                    <Form.Item name="type" label={t("deviceType")}>
                         <Select options={typeOptions} />
                     </Form.Item>
-                    <Form.Item name="address" label="Local network address">
+                    <Form.Item name="address" label={t("localNetworkAddress")}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="accessionNumber" label="Accession number">
+                    <Form.Item
+                        name="accessionNumber"
+                        label={t("accessionNumber")}
+                    >
                         <Input />
                     </Form.Item>
-                    <Form.Item name="manufacturer" label="Manufacturer">
+                    <Form.Item name="manufacturer" label={t("manufacturer")}>
                         <Input />
                     </Form.Item>
                 </Form>

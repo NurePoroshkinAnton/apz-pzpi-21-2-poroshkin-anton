@@ -4,6 +4,9 @@ import { Hotel } from "@/types/hotels/entities/Hotel"
 import { hotelApi } from "@/api/HotelApi"
 import { CreateHotelDto } from "@/types/hotels/dto/CreateHotelDto"
 import { UpdateHotelDto } from "@/types/hotels/dto/UpdateHotelDto"
+import i18next from "i18next"
+
+const { t } = i18next
 
 class HotelStore {
     constructor() {
@@ -28,9 +31,7 @@ class HotelStore {
                 this.isReady = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while fetching hotels. Please, try again later"
-            )
+            message.error(t("fetchHotelsError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -50,9 +51,7 @@ class HotelStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while creating a hotel. Please, try again later"
-            )
+            message.error(t("createHotelError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -72,9 +71,7 @@ class HotelStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while updating a hotel. Please, try again later"
-            )
+            message.error(t("updateHotelError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -94,9 +91,7 @@ class HotelStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while deleting a hotel. Please, try again later"
-            )
+            message.error(t("deleteHotelError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false

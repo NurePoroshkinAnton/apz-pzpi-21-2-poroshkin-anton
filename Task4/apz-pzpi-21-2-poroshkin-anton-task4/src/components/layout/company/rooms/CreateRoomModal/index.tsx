@@ -4,6 +4,7 @@ import { Hotel } from "@/types/hotels/entities/Hotel"
 import { CreateRoomDto } from "@/types/rooms/dto/CreateRoomDto"
 import { Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 
 type EditRoomModalProps = ModalProps & {
@@ -18,6 +19,7 @@ export default function CreateRoomModal({
     setOpen,
     ...modalProps
 }: EditRoomModalProps) {
+    const { t } = useTranslation()
     const { hotelId } = useParams<RouteParams>()
     const [form] = Form.useForm()
     const [hotels, setHotels] = useState<Hotel[]>([])
@@ -41,7 +43,7 @@ export default function CreateRoomModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Create room"
+            title={t("addRoom")}
             centered
         >
             <Spin spinning={!hotels}>
@@ -50,10 +52,10 @@ export default function CreateRoomModal({
                     onFinish={handleFormSubmit}
                     form={form}
                 >
-                    <Form.Item name="hotelId" label="Hotel">
+                    <Form.Item name="hotelId" label={t("hotel")}>
                         <Select options={hotelsOptions} />
                     </Form.Item>
-                    <Form.Item name="number" label="Number">
+                    <Form.Item name="number" label={t("number")}>
                         <Input type="number" />
                     </Form.Item>
                 </Form>

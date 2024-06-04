@@ -4,6 +4,7 @@ import { Hotel } from "@/types/hotels/entities/Hotel"
 import { UpdateRoomDto } from "@/types/rooms/dto/UpdateRoomDto"
 import { Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 type EditRoomModalProps = ModalProps & {
     setOpen: (value: boolean) => void
@@ -17,6 +18,7 @@ export default function EditRoomModal({
     hotel,
     ...modalProps
 }: EditRoomModalProps) {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState<UpdateRoomDto | null>(null)
 
@@ -41,7 +43,7 @@ export default function EditRoomModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Edit room"
+            title={t("editRoom")}
             centered
         >
             <Spin spinning={!formValues}>
@@ -53,13 +55,13 @@ export default function EditRoomModal({
                         hotelId: hotel.id,
                     }}
                 >
-                    <Form.Item name="hotelId" label="Hotel">
+                    <Form.Item name="hotelId" label={t("hotel")}>
                         <Select
                             options={[{ value: hotel.id, label: hotel.name }]}
                             disabled
                         />
                     </Form.Item>
-                    <Form.Item name="number" label="Number">
+                    <Form.Item name="number" label={t("number")}>
                         <Input />
                     </Form.Item>
                 </Form>

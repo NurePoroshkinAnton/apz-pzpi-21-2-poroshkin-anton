@@ -17,6 +17,10 @@ export class HotelsService {
       where: {
         companyId,
       },
+
+      relations: {
+        rooms: true,
+      },
     });
   }
 

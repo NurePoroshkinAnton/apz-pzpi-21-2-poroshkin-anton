@@ -10,6 +10,7 @@ import { Button, Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
 import { omit } from "lodash"
 import { Client } from "@/types/clients/entities/Client"
+import { useTranslation } from "react-i18next"
 
 type EditClientModalProps = ModalProps & {
     setOpen: (value: boolean) => void
@@ -21,6 +22,7 @@ export default function EditClientModal({
     setOpen,
     ...modalProps
 }: EditClientModalProps) {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState<Client | null>(null)
     const [hotels, setHotels] = useState<Hotel[]>([])
@@ -100,7 +102,7 @@ export default function EditClientModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Edit room"
+            title={t("editClient")}
             centered
         >
             <Spin spinning={!formValues || !hotels || isLoadingRooms}>
@@ -109,16 +111,16 @@ export default function EditClientModal({
                     onFinish={handleFormSubmit}
                     form={form}
                 >
-                    <Form.Item name="name" label="Name">
+                    <Form.Item name="name" label={t("name")}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="email" label="Email">
+                    <Form.Item name="email" label={t("email")}>
                         <Input type="email" />
                     </Form.Item>
-                    <Form.Item name="hotelId" label="Hotel">
+                    <Form.Item name="hotelId" label={t("hotel")}>
                         <Select options={hotelsOptions} />
                     </Form.Item>
-                    <Form.Item label="Room">
+                    <Form.Item label={t("room")}>
                         <div
                             style={{
                                 display: "grid",

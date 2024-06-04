@@ -6,12 +6,14 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import EditHotelModal from "@/components/layout/company/hotels/HotelsList/EditHotelModal"
 import { hotelStore } from "@/store/HotelStore"
+import { useTranslation } from "react-i18next"
 
 type HotelCardProps = {
     hotel: Hotel
 }
 
 export default function HotelCard({ hotel }: HotelCardProps) {
+    const { t } = useTranslation()
     const [isEditModalVisible, setEditModalVisible] = useState<boolean>(false)
 
     return (
@@ -39,9 +41,13 @@ export default function HotelCard({ hotel }: HotelCardProps) {
                     </Button>,
                 ]}
             >
-                <div>Address: {hotel.address}</div>
-                <div>Number of rooms: 42</div>
-                <Link to={`/rooms?hotelId=${hotel.id}`}>View rooms...</Link>
+                <div>
+                    {t("address")}: {hotel.address}
+                </div>
+                <div>
+                    {t("numberOfRooms")}: {hotel.rooms.length}
+                </div>
+                <Link to={`/rooms?hotelId=${hotel.id}`}>{t("viewRooms")}</Link>
             </Card>
         </>
     )

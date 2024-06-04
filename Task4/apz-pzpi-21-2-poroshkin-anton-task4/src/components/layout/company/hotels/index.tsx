@@ -7,8 +7,10 @@ import { Button, Spin } from "antd"
 import { observer } from "mobx-react-lite"
 import CreateHotelModal from "@/components/layout/company/hotels/CreateHotelModal"
 import { PlusOutlined } from "@ant-design/icons"
+import { useTranslation } from "react-i18next"
 
 function HotelsComponent() {
+    const { t } = useTranslation()
     const [isCreateModalVisible, setCreateModalVisible] =
         useState<boolean>(false)
     const { isLoading, isReady } = hotelStore
@@ -30,7 +32,7 @@ function HotelsComponent() {
                 setOpen={(value) => setCreateModalVisible(value)}
             />
             <div className={styles["title-wrapper"]}>
-                <PageTitle title="Hotels" />
+                <PageTitle title={t("hotels")} />
                 <Button
                     shape="circle"
                     onClick={() => setCreateModalVisible(true)}

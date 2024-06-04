@@ -3,6 +3,7 @@ import { hotelStore } from "@/store/HotelStore"
 import { UpdateHotelDto } from "@/types/hotels/dto/UpdateHotelDto"
 import { Form, Input, Modal, ModalProps, Spin } from "antd"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 type EditHotelModalProps = ModalProps & {
     setOpen: (value: boolean) => void
@@ -14,6 +15,7 @@ export default function EditHotelModal({
     setOpen,
     ...modalProps
 }: EditHotelModalProps) {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState<UpdateHotelDto | null>(null)
 
@@ -38,7 +40,7 @@ export default function EditHotelModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Edit hotel"
+            title={t("editHotel")}
             centered
         >
             <Spin spinning={!formValues}>
@@ -47,10 +49,10 @@ export default function EditHotelModal({
                     onFinish={handleFormSubmit}
                     form={form}
                 >
-                    <Form.Item name="name" label="Name">
+                    <Form.Item name="name" label={t("name")}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="address" label="Address">
+                    <Form.Item name="address" label={t("address")}>
                         <Input />
                     </Form.Item>
                 </Form>

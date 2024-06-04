@@ -6,6 +6,9 @@ import { Company } from "@/types/companies/entities/Company"
 import { Client } from "@/types/clients/entities/Client"
 import { SigninCompanyDto } from "@/types/auth/dto/SigninCompanyDto"
 import { SignupComapnyDto } from "@/types/auth/dto/SignupCompanyDto"
+import i18next from "i18next"
+
+const { t } = i18next
 
 class AuthStore {
     constructor() {
@@ -34,9 +37,7 @@ class AuthStore {
                 this.company = profile
             })
         } catch (error) {
-            message.error(
-                "An error occured while signing-in. Please, try again later"
-            )
+            message.error(t("signinError"))
         } finally {
             this.isLoading = false
         }
@@ -59,34 +60,7 @@ class AuthStore {
                 this.company = profile
             })
         } catch (error) {
-            message.error(
-                "An error occured while signing-up. Please, try again later"
-            )
-        } finally {
-            this.isLoading = false
-        }
-    }
-
-    async signinClient() {
-        try {
-            this.isLoading = true
-
-            const signinResponse = await authService.signinClient()
-
-            localStorage.setItem(
-                ACCESS_TOKEN_LS_KEY,
-                signinResponse.accessToken
-            )
-
-            const profile = await authService.getClientProfile()
-
-            runInAction(() => {
-                this.client = profile
-            })
-        } catch (error) {
-            message.error(
-                "An error occured while signing-in. Please, try again later"
-            )
+            message.error(t("signupError"))
         } finally {
             this.isLoading = false
         }

@@ -4,7 +4,9 @@ import { ClimateDevice } from "@/types/climate-devices/entities/ClimateDevice"
 import { cliamteDeviceApi } from "@/api/ClimateDeviceApi"
 import { CreateClimateDeviceDto } from "@/types/climate-devices/dto/CreateClimateDeviceDto"
 import { UpdateClimateDeviceDto } from "@/types/climate-devices/dto/UpdateClimateDeviceDto"
+import i18next from "i18next"
 
+const { t } = i18next
 class CliamteDeviceStore {
     constructor() {
         makeAutoObservable(this)
@@ -29,9 +31,7 @@ class CliamteDeviceStore {
                 this.isReady = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while fetching cliamte devices. Please, try again later"
-            )
+            message.error(t("fetchClimateDevicesError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -51,9 +51,7 @@ class CliamteDeviceStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while creating a cliamte device. Please, try again later"
-            )
+            message.error(t("createClimateDeviceError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -73,9 +71,7 @@ class CliamteDeviceStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while updating a cliamte device. Please, try again later"
-            )
+            message.error(t("updateClimateDeviceError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -95,9 +91,7 @@ class CliamteDeviceStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while deleting a climate device. Please, try again later"
-            )
+            message.error(t("deleteClimateDeviceError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false

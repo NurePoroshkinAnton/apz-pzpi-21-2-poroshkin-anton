@@ -5,6 +5,7 @@ import { ClimateDeviceType } from "@/types/climate-devices/entities/ClimateDevic
 import { Room } from "@/types/rooms/entities/Room"
 import { Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 type EditClimateDeviceModalProps = ModalProps & {
     setOpen: (value: boolean) => void
@@ -20,6 +21,7 @@ export default function EditClimateDeviceModal({
     deviceType,
     ...modalProps
 }: EditClimateDeviceModalProps) {
+    const { t } = useTranslation()
     const [form] = Form.useForm()
     const [formValues, setFormValues] = useState<UpdateClimateDeviceDto | null>(
         null
@@ -31,7 +33,6 @@ export default function EditClimateDeviceModal({
         }
 
         cliamteDeviceApi.getById(climateDeviceId).then((values) => {
-            console.log(values)
             setFormValues(values)
             form.setFieldsValue(values)
         })
@@ -47,7 +48,7 @@ export default function EditClimateDeviceModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title="Edit cliamte device"
+            title={t("editClimateDevice")}
             centered
         >
             <Spin spinning={!formValues}>
@@ -60,30 +61,33 @@ export default function EditClimateDeviceModal({
                         type: deviceType,
                     }}
                 >
-                    <Form.Item name="roomId" label="Room">
+                    <Form.Item name="roomId" label={t("room")}>
                         <Select
                             options={[{ value: room.id, label: room.number }]}
                             disabled
                         />
                     </Form.Item>
-                    <Form.Item name="type" label="Type">
+                    <Form.Item name="type" label={t("type")}>
                         <Select
                             options={[
                                 {
                                     value: deviceType,
-                                    label: deviceType,
+                                    label: t(deviceType),
                                 },
                             ]}
                             disabled
                         />
                     </Form.Item>
-                    <Form.Item name="address" label="Local network address">
+                    <Form.Item name="address" label={t("localNetworkAddress")}>
                         <Input />
                     </Form.Item>
-                    <Form.Item name="accessionNumber" label="Accession number">
+                    <Form.Item
+                        name="accessionNumber"
+                        label={t("accessionNumber")}
+                    >
                         <Input />
                     </Form.Item>
-                    <Form.Item name="manufacturer" label="Manufacturer">
+                    <Form.Item name="manufacturer" label={t("manufacturer")}>
                         <Input />
                     </Form.Item>
                 </Form>

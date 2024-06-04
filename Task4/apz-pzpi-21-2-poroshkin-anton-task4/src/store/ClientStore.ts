@@ -4,7 +4,9 @@ import { Client } from "@/types/clients/entities/Client"
 import { clientApi } from "@/api/ClientApi"
 import { CreateClientDto } from "@/types/clients/dto/CreateClientDto"
 import { UpdateClientDto } from "@/types/clients/dto/UpdateClientDto"
+import i18next from "i18next"
 
+const { t } = i18next
 class ClientStore {
     constructor() {
         makeAutoObservable(this)
@@ -28,9 +30,7 @@ class ClientStore {
                 this.isReady = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while fetching clients. Please, try again later"
-            )
+            message.error(t("fetchClientsError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -50,9 +50,7 @@ class ClientStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while creating a client. Please, try again later"
-            )
+            message.error(t("createClientError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -72,9 +70,7 @@ class ClientStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while updating a client. Please, try again later"
-            )
+            message.error(t("updateClientError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
@@ -94,9 +90,7 @@ class ClientStore {
                 this.needsUpdate = true
             })
         } catch (error) {
-            message.error(
-                "An error occured while deleting a client. Please, try again later"
-            )
+            message.error(t("deleteClientError"))
         } finally {
             runInAction(() => {
                 this.isLoading = false
