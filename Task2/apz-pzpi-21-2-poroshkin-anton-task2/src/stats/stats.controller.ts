@@ -20,7 +20,7 @@ export class StatsController {
   }
 
   @Get('climate-devices/hotel/:hotelId')
-  async getClimateDeviceStatsForRoom(@Param('hotelId') hotelId: string) {
+  async getClimateDeviceStatsForHotel(@Param('hotelId') hotelId: string) {
     return this.statsService.getClimateDeviceStatisticsForHotel(hotelId);
   }
 

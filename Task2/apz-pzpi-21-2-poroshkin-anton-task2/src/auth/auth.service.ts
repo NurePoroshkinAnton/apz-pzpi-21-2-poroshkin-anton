@@ -29,6 +29,7 @@ export class AuthService {
       const dto: CreateClientDto = {
         email,
         name: profile.displayName || profile.username,
+        roomId: null,
       };
 
       client = await this.clientsService.create(dto);

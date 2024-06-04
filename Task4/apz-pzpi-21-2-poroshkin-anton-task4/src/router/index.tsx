@@ -9,6 +9,7 @@ import Hotels from "@/components/layout/company/hotels"
 import Rooms from "@/components/layout/company/rooms"
 import ClimateDevices from "@/components/layout/company/climate-devices"
 import Clients from "@/components/layout/company/clients"
+import Stats from "@/components/layout/company/stats"
 
 export const router = createBrowserRouter([
     {
@@ -47,6 +48,14 @@ export const router = createBrowserRouter([
                         element: (
                             <ProtectedRoute>
                                 <Clients />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "stats",
+                        element: (
+                            <ProtectedRoute>
+                                <Stats />
                             </ProtectedRoute>
                         ),
                     },
