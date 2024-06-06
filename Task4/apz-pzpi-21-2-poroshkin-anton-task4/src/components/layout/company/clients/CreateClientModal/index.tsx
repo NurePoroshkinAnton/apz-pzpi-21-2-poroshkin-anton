@@ -78,7 +78,7 @@ export default function CreateClientModal({
             {...modalProps}
             onCancel={() => setOpen(false)}
             onOk={() => form.submit()}
-            title={t("addRoom")}
+            title={t("addClient")}
             centered
         >
             <Spin spinning={!hotels || isLoadingRooms}>
@@ -87,7 +87,7 @@ export default function CreateClientModal({
                     onFinish={handleFormSubmit}
                     form={form}
                 >
-                    <Form.Item name="name" label={t("name")}>
+                    <Form.Item name="name" label={t("clientName")}>
                         <Input />
                     </Form.Item>
                     <Form.Item name="email" label={t("email")}>

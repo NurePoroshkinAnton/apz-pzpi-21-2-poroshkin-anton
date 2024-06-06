@@ -30,6 +30,7 @@ export default function HotelFilter({ setSelectedHotelId }: HotelFilterProps) {
             <Select
                 options={hotelOptions}
                 onChange={(hotelId) => setSelectedHotelId(hotelId)}
+                defaultValue=""
             />
         </div>
     )

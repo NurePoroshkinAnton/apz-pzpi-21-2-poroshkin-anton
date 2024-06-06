@@ -5,14 +5,10 @@ import { CreateRoomDto } from "@/types/rooms/dto/CreateRoomDto"
 import { Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 
 type EditRoomModalProps = ModalProps & {
     setOpen: (value: boolean) => void
-}
-
-type RouteParams = {
-    hotelId: string
 }
 
 export default function CreateRoomModal({
@@ -20,13 +16,13 @@ export default function CreateRoomModal({
     ...modalProps
 }: EditRoomModalProps) {
     const { t } = useTranslation()
-    const { hotelId } = useParams<RouteParams>()
+    const [searchParams] = useSearchParams()
     const [form] = Form.useForm()
     const [hotels, setHotels] = useState<Hotel[]>([])
 
     useEffect(() => {
         hotelApi.getAll().then(setHotels)
-    }, [hotelId])
+    }, [searchParams])
 
     const hotelsOptions = hotels.map((hotel) => ({
         value: hotel.id,

@@ -7,15 +7,10 @@ import { getEnumOptions } from "@/utils/getEnumOptions"
 import { Form, Input, Modal, ModalProps, Select, Spin } from "antd"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 
 type CreateClimateDeviceModalProps = ModalProps & {
     setOpen: (value: boolean) => void
-}
-
-type RouteParams = {
-    roomId: string
-    hotelId: string
 }
 
 export default function CreateClimateDeviceModal({
@@ -23,13 +18,14 @@ export default function CreateClimateDeviceModal({
     ...modalProps
 }: CreateClimateDeviceModalProps) {
     const { t } = useTranslation()
-    const { hotelId } = useParams<RouteParams>()
+    const [searchParams] = useSearchParams()
     const [form] = Form.useForm()
     const [rooms, setRooms] = useState<Room[]>([])
 
     useEffect(() => {
+        const hotelId = searchParams.get("hotelId")
         roomApi.getAll(hotelId!).then(setRooms)
-    }, [hotelId])
+    }, [searchParams])
 
     const roomOptions = rooms.map((room) => ({
         value: room.id,

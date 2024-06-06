@@ -5,29 +5,27 @@ import { Button, Spin } from "antd"
 import { observer } from "mobx-react-lite"
 import { PlusOutlined } from "@ant-design/icons"
 import { roomStore } from "@/store/RoomStore"
-import { useParams } from "react-router-dom"
 import CreateRoomModal from "@/components/layout/company/rooms/CreateRoomModal"
 import RoomList from "@/components/layout/company/rooms/RoomsList"
 import { useTranslation } from "react-i18next"
-
-type RouteParams = {
-    hotelId: string
-}
+import { useSearchParams } from "react-router-dom"
 
 function RoomsComponent() {
     const { t } = useTranslation()
     const [isCreateModalVisible, setCreateModalVisible] =
         useState<boolean>(false)
     const { isLoading, isReady } = roomStore
-    const { hotelId } = useParams<RouteParams>()
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
+        const hotelId = searchParams.get("hotelId")
+        console.log(hotelId)
         roomStore.setHotelId(hotelId!)
 
         if (!isReady) {
             roomStore.fetchAll()
         }
-    }, [isReady, hotelId])
+    }, [isReady, searchParams])
 
     if (isLoading) {
         return <Spin spinning fullscreen size="large" />

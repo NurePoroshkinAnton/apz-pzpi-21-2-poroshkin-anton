@@ -48,7 +48,7 @@ export class RoomsController {
 
   @UseGuards(AccessTokenGuard(Role.Company))
   @Get()
-  getAll(@Param('hotelId') hotelId: string) {
+  getAll(@Query('hotelId') hotelId: string) {
     return this.roomsService.getAll(hotelId);
   }
 

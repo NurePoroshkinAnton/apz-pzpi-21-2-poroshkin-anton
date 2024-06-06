@@ -9,6 +9,7 @@ class RoomApi {
     })
 
     async getAll(hotelId: string): Promise<Room[]> {
+        console.log("axios", hotelId)
         const response = await this.axiosInstance.get("", {
             params: {
                 hotelId,

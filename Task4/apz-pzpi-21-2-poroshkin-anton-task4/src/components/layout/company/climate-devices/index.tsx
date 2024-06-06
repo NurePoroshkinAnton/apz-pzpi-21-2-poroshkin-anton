@@ -6,29 +6,25 @@ import { PlusOutlined } from "@ant-design/icons"
 import { Button, Spin } from "antd"
 import { observer } from "mobx-react-lite"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import styles from "./styles.module.scss"
 import { useTranslation } from "react-i18next"
-
-type RouteParams = {
-    hotelId: string
-    roomId: string
-}
 
 function ClimateDevicesComponent() {
     const { t } = useTranslation()
     const [isCreateModalVisible, setCreateModalVisible] =
         useState<boolean>(false)
     const { isLoading, isReady } = climateDeviceStore
-    const { roomId } = useParams<RouteParams>()
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
+        const roomId = searchParams.get("roomId")
         climateDeviceStore.setRoomId(roomId!)
 
         if (!isReady) {
             climateDeviceStore.fetchAll()
         }
-    }, [isReady, roomId])
+    }, [isReady, searchParams])
 
     if (isLoading) {
         return <Spin spinning fullscreen size="large" />

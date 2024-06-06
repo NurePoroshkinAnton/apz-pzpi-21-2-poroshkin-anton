@@ -43,6 +43,18 @@ export default function ClientCard({ client }: ClientCardProps) {
                 <div>
                     {t("email")}: {client.email}
                 </div>
+                {client.room ? (
+                    <>
+                        <div>
+                            {t("livesInHotel")}: {client.room.hotel.name}
+                        </div>
+                        <div>
+                            {t("room")}: {client.room.number}
+                        </div>
+                    </>
+                ) : (
+                    <div>{t("doesntLiveInAHotel")}</div>
+                )}
             </Card>
         </>
     )

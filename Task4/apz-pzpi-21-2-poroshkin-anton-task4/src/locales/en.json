@@ -72,6 +72,9 @@
         "worstManufacturersRankings": "Worst manufacturers rankings",
         "numberOfDevicesWithErrorStatus": "Number of devices with error status",
         "numberOfDevicesWithWarningStatus": "Number of devices with warning status",
-        "notSelected": "Not selected"
+        "notSelected": "Not selected",
+        "livesInHotel": "Lives in hotel",
+        "doesntLiveInAHotel": "Currently does not live in a hotel",
+        "clientName": "Name"
     }
 }

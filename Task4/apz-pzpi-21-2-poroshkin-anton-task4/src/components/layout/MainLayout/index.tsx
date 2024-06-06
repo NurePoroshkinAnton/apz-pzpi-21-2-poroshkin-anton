@@ -3,7 +3,7 @@ import styles from "./styles.module.scss"
 import { Button } from "antd"
 import { authStore } from "@/store/AuthStore"
 import { observer } from "mobx-react-lite"
-import LocalePicker from "@/components/layout/MainLayout/LocalePicker"
+import LocalePicker from "@/components/ui/LocalePicker"
 import { useTranslation } from "react-i18next"
 
 function MainLayoutComponent() {

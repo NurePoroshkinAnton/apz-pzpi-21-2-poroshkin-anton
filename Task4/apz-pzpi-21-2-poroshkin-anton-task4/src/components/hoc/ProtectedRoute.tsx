@@ -20,9 +20,7 @@ function ProtectedRouteComponent({ children }: { children: JSX.Element }) {
 
             const tokenPayload = jwtDecode<JwtPayload>(accessToken)
 
-            if (tokenPayload.role === Role.Client) {
-                authStore.getClientProfile()
-            } else {
+            if (tokenPayload.role === Role.Company) {
                 authStore.getCompanyProfile()
             }
         }
@@ -32,7 +30,7 @@ function ProtectedRouteComponent({ children }: { children: JSX.Element }) {
         return <Spin spinning size="large" />
     }
 
-    if (!authStore.client && !authStore.company) {
+    if (!authStore.company) {
         console.log(!authStore.client)
         console.log(!authStore.company)
         return <Navigate to="/auth/company/signin" replace />

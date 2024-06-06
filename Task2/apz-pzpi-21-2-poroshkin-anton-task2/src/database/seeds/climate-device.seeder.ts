@@ -62,5 +62,5 @@ const climateDevices = climateDeviceUuids.map((id, index) => ({
       randint(0, climateDeviceManufacturers.length - 1)
     ],
   status: Object.values(ClimateDeviceStatus)[randint(0, 2)],
-  roomId: roomUuids[0],
+  roomId: roomUuids[randint(0, roomUuids.length - 1)],
 }));

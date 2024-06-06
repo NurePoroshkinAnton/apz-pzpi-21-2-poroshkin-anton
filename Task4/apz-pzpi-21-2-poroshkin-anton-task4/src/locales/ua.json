@@ -72,6 +72,9 @@
         "worstManufacturersRankings": "Найгірші виробники кліматичних пристроїв",
         "numberOfDevicesWithErrorStatus": "Кількість пристроїв у стані помилки",
         "numberOfDevicesWithWarningStatus": "Кількість пристроїв у стані попередження",
-        "notSelected": "Не обрано"
+        "notSelected": "Не обрано",
+        "livesInHotel": "Проживає у готелі",
+        "doesntLiveInAHotel": "На даний момент у готелі не проживає",
+        "clientName": "Ім'я"
     }
 }

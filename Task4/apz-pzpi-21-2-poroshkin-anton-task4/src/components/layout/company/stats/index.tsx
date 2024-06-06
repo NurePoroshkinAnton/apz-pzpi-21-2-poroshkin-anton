@@ -84,7 +84,7 @@ export default function Stats() {
                 </div>
                 <div className={styles["worst-manufacturers-list"]}>
                     {manufacturersStats.map((item) => (
-                        <Card title={item.manufacturer}>
+                        <Card title={item.manufacturer} key={item.manufacturer}>
                             <div>
                                 {t("numberOfDevicesWithErrorStatus")}:{" "}
                                 <Badge

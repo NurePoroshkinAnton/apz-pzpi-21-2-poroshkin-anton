@@ -4,7 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector"
 import en from "@/locales/en.json"
 import ua from "@/locales/ua.json"
 
-i18next.use(initReactI18next).init({
+i18next.use(initReactI18next).use(LanguageDetector).init({
     fallbackLng: "ua",
     debug: true,
     resources: {

@@ -111,7 +111,7 @@ export default function EditClientModal({
                     onFinish={handleFormSubmit}
                     form={form}
                 >
-                    <Form.Item name="name" label={t("name")}>
+                    <Form.Item name="name" label={t("clientName")}>
                         <Input />
                     </Form.Item>
                     <Form.Item name="email" label={t("email")}>
