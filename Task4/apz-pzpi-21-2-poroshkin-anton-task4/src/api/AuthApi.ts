@@ -5,7 +5,7 @@ import { SignupComapnyDto } from "@/types/auth/dto/SignupCompanyDto"
 import { Client } from "@/types/clients/entities/Client"
 import { Company } from "@/types/companies/entities/Company"
 
-class AuthService {
+class AuthApi {
     private axiosInstance = getAxiosInstance({
         baseURL: `${import.meta.env.VITE_API_BASE_URL}/auth`,
     })
@@ -40,5 +40,5 @@ class AuthService {
     }
 }
 
-export const authService = new AuthService()
+export const authApi = new AuthApi()
 

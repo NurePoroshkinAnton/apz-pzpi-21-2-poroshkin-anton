@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx"
 import { message } from "antd"
-import { authService } from "@/api/AuthService"
+import { authApi } from "@/api/AuthApi"
 import { ACCESS_TOKEN_LS_KEY } from "@/config/constants"
 import { Company } from "@/types/companies/entities/Company"
 import { Client } from "@/types/clients/entities/Client"
@@ -24,14 +24,14 @@ class AuthStore {
         try {
             this.isLoading = true
 
-            const signinResponse = await authService.signinCompany(dto)
+            const signinResponse = await authApi.signinCompany(dto)
 
             localStorage.setItem(
                 ACCESS_TOKEN_LS_KEY,
                 signinResponse.accessToken
             )
 
-            const profile = await authService.getCompanyProfile()
+            const profile = await authApi.getCompanyProfile()
 
             runInAction(() => {
                 this.company = profile
@@ -47,14 +47,14 @@ class AuthStore {
         try {
             this.isLoading = true
 
-            const signupResponse = await authService.signupCompany(dto)
+            const signupResponse = await authApi.signupCompany(dto)
 
             localStorage.setItem(
                 ACCESS_TOKEN_LS_KEY,
                 signupResponse.accessToken
             )
 
-            const profile = await authService.getCompanyProfile()
+            const profile = await authApi.getCompanyProfile()
 
             runInAction(() => {
                 this.company = profile
@@ -71,7 +71,7 @@ class AuthStore {
     }
 
     async getCompanyProfile() {
-        const profile = await authService.getCompanyProfile()
+        const profile = await authApi.getCompanyProfile()
 
         runInAction(() => {
             this.company = profile
@@ -80,7 +80,7 @@ class AuthStore {
     }
 
     async getClientProfile() {
-        const profile = await authService.getClientProfile()
+        const profile = await authApi.getClientProfile()
 
         runInAction(() => {
             this.client = profile
