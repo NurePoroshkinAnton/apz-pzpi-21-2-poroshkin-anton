@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 android {
@@ -9,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ua.nure.anton_poroshkin.apz_2024.climatly"
-        minSdk = 30
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -50,7 +52,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -58,7 +59,28 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.googleid)
+    implementation(libs.credentials)
+    implementation(libs.credentials.play.services.auth)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.jwtdecode)
+    implementation(libs.ktor.client.auth)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.material3)
+    implementation(libs.navigation.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.appcompat.resources)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
