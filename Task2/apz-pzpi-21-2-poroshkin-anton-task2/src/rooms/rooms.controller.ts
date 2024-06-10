@@ -29,7 +29,7 @@ export class RoomsController {
     return this.roomsService.getActiveProfile(roomId);
   }
 
-  @Post('set-profile-active')
+  @Post('set-active-profile')
   @HttpCode(200)
   setActiveProfile(@Body() dto: SetProfileActiveDto) {
     return this.roomsService.setActiveProfile(dto);

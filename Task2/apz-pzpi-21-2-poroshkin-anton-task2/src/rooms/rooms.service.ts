@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -67,6 +67,11 @@ export class RoomsService {
   async setActiveProfile(setProfileActiveDto: SetProfileActiveDto) {
     const { roomId, profileId, isActive } = setProfileActiveDto;
 
+    if (!roomId) {
+      Logger.log('No room id');
+      return this.climateProfilesService.update(profileId, { isActive });
+    }
+
     const room = await this.roomRepo.findOne({
       where: { id: roomId },
       relations: {
@@ -82,6 +87,9 @@ export class RoomsService {
 
     if (isActive) {
       const activeProfile = await this.getActiveProfile(roomId);
+
+      Logger.log(activeProfile);
+
       if (activeProfile) {
         await this.climateProfilesService.update(activeProfile.id, {
           isActive: false,

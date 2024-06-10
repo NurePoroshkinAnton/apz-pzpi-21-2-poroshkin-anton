@@ -23,6 +23,10 @@ export class ClimateProfilesService {
       relations: {
         client: true,
       },
+
+      order: {
+        createdAt: 'DESC',
+      },
     });
   }
 

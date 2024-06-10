@@ -1,5 +1,5 @@
 import { BaseEntity } from 'src/common/base-entity.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne } from 'typeorm';
 import { Client } from 'src/clients/entities/client.entity';
 
 export enum ClimateDeviceType {
@@ -32,4 +32,7 @@ export class ClimateProfile extends BaseEntity {
 
   @ManyToOne(() => Client, (client) => client.climateProfiles)
   client: Client;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

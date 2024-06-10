@@ -1,16 +1,15 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { Profile } from 'passport-google-oauth20';
 import { ClientsService } from 'src/clients/clients.service';
 import JwtPayload from 'src/common/types/JwtPayload';
 import { CompaniesService } from 'src/companies/companies.service';
-import { Role } from './types/Role';
 import { CreateClientDto } from 'src/clients/dto/create-client.dto';
 import { CreateCompanyDto } from 'src/companies/dto/create-company.dto';
 import { SigninDto } from './dto/signin.dto';
 import { omit } from 'lodash';
 import * as bcrypt from 'bcrypt';
+import { GoogleJwtPayloadDto } from 'src/auth/dto/google-jwt-payload.dto';
 
 @Injectable()
 export class AuthService {
@@ -21,25 +20,23 @@ export class AuthService {
     private readonly config: ConfigService,
   ) {}
 
-  async validateUser(profile: Profile) {
-    const email = profile.emails[0].value;
+  async signinClient(googleJwt: string) {
+    const { email, name } =
+      this.jwtService.decode<GoogleJwtPayloadDto>(googleJwt);
+
     let client = await this.clientsService.getByEmail(email);
 
     if (!client) {
       const dto: CreateClientDto = {
         email,
-        name: profile.displayName || profile.username,
+        name: name,
         roomId: null,
       };
 
       client = await this.clientsService.create(dto);
     }
 
-    return {
-      sub: client.id,
-      email: client.email,
-      role: Role.Client,
-    };
+    return client;
   }
 
   async signupCompany(dto: CreateCompanyDto) {

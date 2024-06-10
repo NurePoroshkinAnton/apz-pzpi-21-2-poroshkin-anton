@@ -5,9 +5,9 @@ import {
   HttpCode,
   Post,
   Req,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { GoogleAuthGuard } from './guards/GoogleAuthGuard';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -16,6 +16,7 @@ import { Role } from './types/Role';
 import { SigninDto } from './dto/signin.dto';
 import { SignupComapnyDto } from './dto/signup-company.dto';
 import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
+import { AccessTokenDto } from 'src/auth/dto/access-token.dto';
 
 @ApiBearerAuth()
 @ApiTags('auth')
@@ -23,20 +24,24 @@ import { AccessTokenGuard } from 'src/common/guards/AccessTokenGuard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('google/signin')
-  @UseGuards(GoogleAuthGuard)
-  signinUser() {}
+  @Post('signin/google')
+  async signinUser(@Body() googleJwt: AccessTokenDto) {
+    if (!googleJwt) {
+      throw new UnauthorizedException('Missing google JWT');
+    }
 
-  @Get('google/redirect')
-  @UseGuards(GoogleAuthGuard)
-  googleRedirect(@Req() req: Request) {
-    const payload = req.user as JwtPayload;
+    const client = await this.authService.signinClient(googleJwt.accessToken);
+    const payload = {
+      sub: client.id,
+      email: client.email,
+      role: Role.Client,
+    };
+
     const accessToken = this.authService.signJwt(payload);
-
     return { accessToken };
   }
 
-  @Post('/signup/company')
+  @Post('signup/company')
   async signupCompany(@Body() dto: SignupComapnyDto) {
     const company = await this.authService.signupCompany(dto);
     const accessToken = this.authService.signJwt({
@@ -49,7 +54,7 @@ export class AuthController {
   }
 
   @HttpCode(200)
-  @Post('/signin/company')
+  @Post('signin/company')
   async signinCompany(@Body() dto: SigninDto) {
     const company = await this.authService.signinCompany(dto);
     const accessToken = this.authService.signJwt({

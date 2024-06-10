@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
-import { GoogleStrategy } from './strategies/GoogleStrategy';
-import { GoogleAuthGuard } from './guards/GoogleAuthGuard';
 import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionSerializer } from './utils/SessionSerializer';
@@ -18,6 +16,6 @@ import { ClientsModule } from 'src/clients/clients.module';
     ClientsModule,
   ],
   controllers: [AuthController],
-  providers: [GoogleStrategy, GoogleAuthGuard, AuthService, SessionSerializer],
+  providers: [AuthService, SessionSerializer],
 })
 export class AuthModule {}
