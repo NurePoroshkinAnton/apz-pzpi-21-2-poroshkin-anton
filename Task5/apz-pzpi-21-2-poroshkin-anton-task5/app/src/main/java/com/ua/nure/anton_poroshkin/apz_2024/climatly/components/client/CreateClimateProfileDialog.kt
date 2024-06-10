@@ -1,22 +1,24 @@
 package com.ua.nure.anton_poroshkin.apz_2024.climatly.components.client
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.api.climate_profile.dto.CreateClimateProfileDto
-import com.ua.nure.anton_poroshkin.apz_2024.climatly.models.ClimateProfile
+import com.ua.nure.anton_poroshkin.apz_2024.climatly.R
 
 @Composable
 fun CreateClimateProfileDialog(
@@ -29,26 +31,26 @@ fun CreateClimateProfileDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = "Create Climate Profile") },
+        title = { Text(text = stringResource(R.string.create_climate_profile)) },
 
         text = {
             Column {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Name") })
+                    label = { Text(stringResource(R.string.name)) })
                 Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(
                     value = temperature,
                     onValueChange = { temperature = it },
-                    label = { Text("Temperature (°C)") },
+                    label = { Text("${stringResource(R.string.temperature)} (°C)") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 OutlinedTextField(
                     value = humidity,
                     onValueChange = { humidity = it },
-                    label = { Text("Humidity (%)") },
+                    label = { Text("${stringResource(R.string.humidity)} (%)") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
             }
@@ -63,13 +65,13 @@ fun CreateClimateProfileDialog(
                 )
                 onCreate(newProfile)
             }) {
-                Text("Create")
+                Text(stringResource(R.string.create))
             }
         },
 
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         }
     )

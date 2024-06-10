@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SetProfileActiveDto(
-    val roomId: String,
+    val roomId: String?,
     val profileId: String,
     val isActive: Boolean
 )

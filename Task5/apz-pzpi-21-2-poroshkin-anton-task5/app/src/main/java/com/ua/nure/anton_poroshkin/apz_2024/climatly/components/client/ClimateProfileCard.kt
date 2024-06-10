@@ -1,34 +1,37 @@
 package com.ua.nure.anton_poroshkin.apz_2024.climatly.components.client
 
-import android.widget.Space
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.models.ClimateProfile
-import androidx.compose.material3.Icon
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.TextButton
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
+import com.ua.nure.anton_poroshkin.apz_2024.climatly.R
 
 @Composable
 fun ClimateProfileCard(
     climateProfile: ClimateProfile,
     onUpdateClick: (id: String) -> Unit,
-    onRemoveClick: (id: String) -> Unit
+    onRemoveClick: (id: String) -> Unit,
+    onActivateClick: (profile: ClimateProfile) -> Unit
 ) {
     OutlinedCard(
         modifier = Modifier
@@ -60,15 +63,25 @@ fun ClimateProfileCard(
                 style = MaterialTheme.typography.headlineSmall
             )
             Spacer(modifier = Modifier.size(12.dp))
-            Text(text = "Temperature: ${climateProfile.temperature}°C")
-            Text(text = "Humidity: ${climateProfile.humidity}%")
-            Text(text = "Active: ${if (climateProfile.isActive) "Yes" else "No"}")
+            Text(text = "${stringResource(R.string.temperature)}: ${climateProfile.temperature}°C")
+            Text(text = "${stringResource(R.string.humidity)}: ${climateProfile.humidity}%")
+            Text(
+                text = "${stringResource(R.string.status)}: ${
+                    if (climateProfile.isActive) stringResource(
+                        R.string.active
+                    ) else stringResource(R.string.inactive)
+                }"
+            )
             Spacer(modifier = Modifier.weight(1f))
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 OutlinedButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { onActivateClick(climateProfile) },
                 ) {
-                    Text(text = if (climateProfile.isActive) "Deactivate" else "Activate")
+                    Text(
+                        text = if (climateProfile.isActive) stringResource(R.string.deactivate) else stringResource(
+                            R.string.active
+                        )
+                    )
                 }
             }
         }

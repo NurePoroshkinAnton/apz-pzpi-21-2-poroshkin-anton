@@ -9,9 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.api.climate_profile.ClimateProfileApi
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.api.climate_profile.dto.CreateClimateProfileDto
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.api.climate_profile.dto.UpdateClimateProfileDto
+import com.ua.nure.anton_poroshkin.apz_2024.climatly.api.room.RoomApi
+import com.ua.nure.anton_poroshkin.apz_2024.climatly.api.room.dto.SetProfileActiveDto
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.models.ClimateProfile
 import io.ktor.client.HttpClient
-import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -26,10 +27,6 @@ class ClimateProfilesViewModel : ViewModel() {
             headers {
                 append("ngrok-skip-browser-warning", "true")
                 append("Content-Type", "application/json")
-                append(
-                    "Authorization",
-                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZmNlZDhkNy1mZWNlLTRlZGUtODUzNC03OTg1NjJmMjNmOTIiLCJlbWFpbCI6InBvcm9zaGtpbmFudG9uMThAZ21haWwuY29tIiwicm9sZSI6ImNsaWVudCIsImlhdCI6MTcxNzg0ODUzMywiZXhwIjoxNzIwNDQwNTMzfQ.bRmpx3MlqSM1N-OPp7MDuaVx-Uq6JB-TnpArbi0RP-c"
-                )
             }
         }
 
@@ -41,11 +38,15 @@ class ClimateProfilesViewModel : ViewModel() {
     }
 
     private val climateProfileApi = ClimateProfileApi(client)
+    private val roomApi = RoomApi(client)
 
     private var _climateProfiles by mutableStateOf(emptyList<ClimateProfile>())
     private var _isLoading by mutableStateOf(false)
     private var _isCreating by mutableStateOf(false)
     private var _selectedClimateProfile by mutableStateOf<String?>(null)
+    private var _activeProfile by mutableStateOf<ClimateProfile?>(null)
+    private var _isActivatingProfile by mutableStateOf(false)
+    private var _accessToken by mutableStateOf<String?>(null)
 
     val climateProfiles: List<ClimateProfile>
         get() {
@@ -73,13 +74,37 @@ class ClimateProfilesViewModel : ViewModel() {
             _selectedClimateProfile = value
         }
 
+    var activeProfile: ClimateProfile?
+        get() {
+            return _activeProfile
+        }
+        set(value) {
+            _activeProfile = value
+        }
+
+    var isActivatingProfile: Boolean
+        get() {
+            return _isActivatingProfile
+        }
+        set(value) {
+            _isActivatingProfile = value
+        }
+
+    var accessToken: String?
+        get() {
+            return _accessToken
+        }
+        set(value) {
+            _accessToken = value
+        }
+
     suspend fun getAll() {
         try {
             _isLoading = true
-            val climateProfiles = climateProfileApi.getAll()
+            val climateProfiles = climateProfileApi.getAll(accessToken!!)
             _climateProfiles = climateProfiles
             _isLoading = false
-        } catch (e: NoTransformationFoundException) {
+        } catch (e: Exception) {
             Log.e("FETCH CLIMATE PROFILES", "$e")
         }
     }
@@ -87,11 +112,11 @@ class ClimateProfilesViewModel : ViewModel() {
     suspend fun addProfile(dto: CreateClimateProfileDto) {
         try {
             _isLoading = true
-            climateProfileApi.create(dto)
-            _climateProfiles = climateProfileApi.getAll()
+            climateProfileApi.create(dto, accessToken!!)
+            _climateProfiles = climateProfileApi.getAll(accessToken!!)
             _isLoading = false
             _isCreating = false
-        } catch (e: NoTransformationFoundException) {
+        } catch (e: Exception) {
             Log.e("CREATE CLIMATE PROFILE", "$e")
         }
     }
@@ -99,11 +124,11 @@ class ClimateProfilesViewModel : ViewModel() {
     suspend fun updateProfile(id: String, dto: UpdateClimateProfileDto) {
         try {
             _isLoading = true
-            climateProfileApi.update(id, dto)
-            _climateProfiles = climateProfileApi.getAll()
+            climateProfileApi.update(id, dto, accessToken!!)
+            _climateProfiles = climateProfileApi.getAll(accessToken!!)
             _isLoading = false
-            _isCreating = false
-        } catch (e: NoTransformationFoundException) {
+            _selectedClimateProfile = null
+        } catch (e: Exception) {
             Log.e("UPDATE CLIMATE PROFILE", "$e")
         }
     }
@@ -111,12 +136,42 @@ class ClimateProfilesViewModel : ViewModel() {
     suspend fun removeProfile(id: String) {
         try {
             _isLoading = true
-            climateProfileApi.delete(id)
-            _climateProfiles = climateProfileApi.getAll()
+            climateProfileApi.delete(id, accessToken!!)
+            _climateProfiles = climateProfileApi.getAll(accessToken!!)
             _isLoading = false
-            _isCreating = false
-        } catch (e: NoTransformationFoundException) {
+        } catch (e: Exception) {
             Log.e("UPDATE CLIMATE PROFILE", "$e")
+        }
+    }
+
+    suspend fun getActiveProfile(roomId: String): ClimateProfile? {
+        var activeProfile: ClimateProfile? = null
+
+        try {
+            _isLoading = true
+            activeProfile = roomApi.getActiveProfile(roomId)
+            _isLoading = false
+        } catch (e: Exception) {
+            Log.e("GET ACTIVE CLIMATE PROFILE", "$e")
+        }
+
+        return activeProfile
+    }
+
+    suspend fun setProfileStatus(dto: SetProfileActiveDto) {
+        try {
+            _isLoading = true
+            roomApi.setProfileActive(dto)
+            _climateProfiles = climateProfileApi.getAll(accessToken!!)
+            _isLoading = false
+        } catch (e: Exception) {
+            Log.e("UPDATE CLIMATE PROFILE", "$e")
+        }
+    }
+
+    fun handleUpdateProfileClick(dto: SetProfileActiveDto) {
+        viewModelScope.launch {
+            setProfileStatus(dto)
         }
     }
 
