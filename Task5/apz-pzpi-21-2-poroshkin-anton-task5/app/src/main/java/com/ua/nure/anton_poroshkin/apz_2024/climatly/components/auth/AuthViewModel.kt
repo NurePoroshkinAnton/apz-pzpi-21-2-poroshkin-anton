@@ -18,6 +18,7 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.OAUTH_APP_ID
 import com.ua.nure.anton_poroshkin.apz_2024.climatly.api.auth.AuthApi
+import com.ua.nure.anton_poroshkin.apz_2024.climatly.models.Client
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -54,6 +55,10 @@ class AuthViewModel : ViewModel() {
             accessToken = token
             isLoading = false
         }
+    }
+
+    suspend fun getClientProfile(token: String): Client {
+        return authApi.getClientProfile(token)
     }
 
     private suspend fun signinWithGoogle(context: Context): String {
